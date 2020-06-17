@@ -46,9 +46,8 @@ passport.use(
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile)
-      db.User.findOrCreate(
-        {
-          where: { email: profile.email },
+      db.User.findOrCreate({
+          where: { googleId: profile.id  },
         },
         function(err, user) {
           return done(err, user);

@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     // The email cannot be null, and must be a proper email before creation
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
       validate: {
         isEmail: true
@@ -15,8 +15,22 @@ module.exports = function(sequelize, DataTypes) {
     // The password cannot be null
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+    },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true
+    },
+    validate : {
+      emailOrGoogleId() {
+        if ((this.email === null) && (this.googleId === null)) {
+          throw new Error('You must enter an email or sign in with your Google account')
+        }
+      }
     }
+
+    
   });
   // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database
   User.prototype.validPassword = function(password) {
