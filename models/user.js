@@ -22,6 +22,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       unique: true
     },
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING
+    }
   }, {
     validate : {
       emailOrGoogleId() {

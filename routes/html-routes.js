@@ -32,7 +32,6 @@ module.exports = function(app) {
     "/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
     (req, res) => {
-      console.log('Made it to /google/callback')
       res.redirect("/members");
     }
   );
