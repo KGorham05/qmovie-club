@@ -22,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       unique: true
     },
+  }, {
     validate : {
       emailOrGoogleId() {
         if ((this.email === null) && (this.googleId === null)) {
