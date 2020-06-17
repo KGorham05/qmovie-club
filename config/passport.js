@@ -48,6 +48,9 @@ passport.use(
       console.log(profile);
       db.User.findOrCreate({
         where: { googleId: profile.id },
+        defaults: {
+          password: "googleId"
+        }
       }).then((user) => {
         return done(err, user);
       });
