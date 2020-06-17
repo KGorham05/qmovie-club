@@ -50,8 +50,8 @@ passport.use(
         where: { googleId: profile.id },
         defaults: {
           password: "googleId",
-          first: profile.name.givenName,
-          last: profile.name.familyName,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
         }
       }).then((user) => {
         return done(null, user);
