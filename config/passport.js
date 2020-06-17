@@ -52,7 +52,7 @@ passport.use(
           password: "googleId"
         }
       }).then((user) => {
-        return done(err, user);
+        return done(null, user);
       });
     }
   )
