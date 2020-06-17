@@ -45,9 +45,10 @@ passport.use(
       callbackURL: "https://q-movie-club.herokuapp.com/google/callback",
     },
     function(accessToken, refreshToken, profile, done) {
+      console.log(profile)
       db.User.findOrCreate(
         {
-          where: { googleId: profile.id },
+          where: { email: profile.email },
         },
         function(err, user) {
           return done(err, user);
