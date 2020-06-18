@@ -10,7 +10,7 @@ module.exports = function (app) {
     if (req.user) {
       res.redirect("/members");
     }
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
+    res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 
   app.get("/login", function (req, res) {
@@ -20,6 +20,18 @@ module.exports = function (app) {
     }
     res.sendFile(path.join(__dirname, "../public/login.html"));
   });
+
+  app.get("/signup", function (req, res) {
+    // If the user already has an account send them to the members page
+    if (req.user) {
+      res.redirect("/members");
+    }
+    res.sendFile(path.join(__dirname, "../public/signup.html"));
+  });
+
+  app.get("/about", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/about.html"))
+  })
 
   // GOOGLE API
   app.get(
