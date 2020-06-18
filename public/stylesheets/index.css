@@ -1,9 +1,26 @@
 .hero {
-  background-image: url("../assets/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
+  background-image: url("../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
   height: calc(100vh - 56px);
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size:cover;
   /* background-attachment: fixed; */
+}
+
+.hero-title {
+  color: white;
+  font-size: 72px;
+  margin-top: 100px;
+  margin-bottom: 75px;
+}
+
+.hero-cta {
+  color: white;
+  font-size: 24px;
+  background-color: blue;
+  padding: 10px 40px;
+  font-weight: 800;
+  border-radius: 10px;
+  margin-top: 95px;
 }
