@@ -1,0 +1,9 @@
+.hero {
+  background-image: url("../assets/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
+  height: calc(100vh - 56px);
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+  /* background-attachment: fixed; */
+}
