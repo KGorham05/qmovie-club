@@ -3,6 +3,10 @@ body {
   /* background-color: rgb(182, 182, 182); */
 }
 
+.bg-grey {
+  background-color: rgb(182, 182, 182);
+}
+
 .navbar {
   background: rgba(0, 0, 0)
 }
@@ -51,8 +55,39 @@ body {
 
 .about {
   height: 500px;
-  background-color: rgb(182, 182, 182);
 }
+
+.h-500 {
+  height: 500px;
+}
+
+.h-300 {
+  height: 300px;
+  border-bottom: white .7vw solid;
+}
+
+.h-200 {
+  height: 200px;
+}
+
+.br-7 {
+  border-right: white .7vw solid;
+}
+.how-it-works {
+  border-right: white .7vw solid;
+}
+
+.footer-top {
+  max-width: 100%;
+  margin-top: 50px;
+}
+
+.footer {
+  height: 200px;
+  background-color: black;
+}
+
+
 /* .grow { transition: all .2s ease-in-out; }
 .grow:hover { transform: scale(1.1); } */
 
@@ -66,3 +101,7 @@ body {
 /* About section is for new users explain simply how the site works/what it does */
 /* Why section to mention covid, bringing people together when we cant hang out. Trying to do something to keep people's spirits up */
 /* Also want to practice as a web dev, use as a job tool -> mention me and link my linkedIn, resume, portfolio, contact me section */
+
+/* TO DO */
+/* Optimize hero image */
+/* Media Query to Shrink font sizes on smaller devices */
