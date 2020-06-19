@@ -1,26 +1,68 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  /* background-color: rgb(182, 182, 182); */
+}
+
+.navbar {
+  background: rgba(0, 0, 0)
+}
+
 .hero {
-  background-image: url("../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
-  height: calc(100vh - 56px);
-  width: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .4)), url("../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size:cover;
-  /* background-attachment: fixed; */
+  background-size: cover;
+  height: 85vh;
+  width: 100%;
+  margin-bottom: .7vw;
 }
 
 .hero-title {
-  color: #970000;
+  color: white;
   font-size: 72px;
-  margin-top: 100px;
-  margin-bottom: 75px;
+  margin-bottom: 2vh; 
+  font-weight: 600;
+}
+
+.hero-subtitle {
+  color: white;
+  margin-bottom: 25vh; 
 }
 
 .hero-cta {
   color: white;
-  font-size: 24px;
-  background-color: blue;
-  padding: 10px 40px;
-  font-weight: 800;
-  border-radius: 10px;
-  margin-top: 95px;
+  background-color: #DDBD59;
+  border: none;
+  font-family: montserrat;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding-right: 30px;
+  padding-left: 30px;
+  padding-top: 12px;
+  padding-bottom: 10px;
 }
+
+.hero-cta:hover {
+  opacity: .7;
+  transition: opacity .3s ease-in-out;
+  text-decoration: none;
+  color: white;
+}
+
+.about {
+  height: 500px;
+  background-color: rgb(182, 182, 182);
+}
+/* .grow { transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(1.1); } */
+
+/* Questions for Mike Stefanko */
+/* Why can't I make it grow on hover? */
+/* Does transition go on the element or the hover state? */
+/* Color ideas for title, CTA button? */
+/* 100vh hero or less to indicate content below */
+/* At a loss for what to do with the rest of the background */
+/* Could use some ideas for wireframe/positioning the about section/why section -> what to call these */
+/* About section is for new users explain simply how the site works/what it does */
+/* Why section to mention covid, bringing people together when we cant hang out. Trying to do something to keep people's spirits up */
+/* Also want to practice as a web dev, use as a job tool -> mention me and link my linkedIn, resume, portfolio, contact me section */

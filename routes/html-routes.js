@@ -29,10 +29,6 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/signup.html"));
   });
 
-  app.get("/about", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/about.html"))
-  })
-
   // GOOGLE API
   app.get(
     "/auth/google",
