@@ -65,8 +65,12 @@ body {
   background-size: cover;
 }
 
-.how-it-works img {
+.icon {
   max-height: 50px;
+}
+
+.invert-color {
+  filter: invert();
 }
 
 .how-it-works-title, .why-qmc-title, .contact-title, .created-by-title {
@@ -74,8 +78,7 @@ body {
 }
 
 .how-it-works .card {
-  
-  background-color: lightblue
+  background-color: lightblue;
 }
 
 .why-qmc {
@@ -87,7 +90,8 @@ body {
 }
 
 .why-qmc-card {
-  opacity: .6;
+  /* opacity: .85; */
+  background-color: lightblue;
 }
 
 
@@ -103,6 +107,15 @@ body {
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
+}
+
+.name-input, .email-input, .message-input {
+  width: 90%;
+}
+
+.form-submit {
+  width: 200px;
+  height: 40px;
 }
 
 .created-by {
