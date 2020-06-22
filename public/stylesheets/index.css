@@ -79,7 +79,9 @@ body {
 }
 
 .how-it-works .card {
-  background-color: lightblue;
+  background-color: rgb(94, 1, 1);
+  opacity: .9;
+  color: white
 }
 
 .why-qmc {
@@ -91,13 +93,14 @@ body {
 }
 
 .why-qmc-card {
-  /* opacity: .85; */
-  background-color: lightblue;
+  opacity: .85;
+  background-color: rgb(94, 1, 1);
+  /* color: white; */
 }
 
 
 .why-qmc p {
-  color: black;
+  color: white;
   font-weight: 600;
 }
 
@@ -148,6 +151,10 @@ body {
     border-bottom: .7vw solid white;
   }
 }
+
+/* Make QMC /Contact /Create by into one row */
+/* Only show how it work */
+/* Increase size of the CTA -> Put How it Works section into Hero Div  */
 
 /* Questions for Mike Stefanko */
 /* Color ideas for title, CTA button? */
