@@ -59,6 +59,7 @@ body {
 
 .how-it-works {
   border-right: white .7vw solid;
+  /* border-bottom: white .7vw solid; */
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)), url("../images/anika-mikkelson-dWYjy9zIiF8-unsplash.jpg");
   background-repeat: no-repeat;
   background-position: right;
@@ -86,7 +87,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  border-bottom: .7vw solid white
+  border-bottom: .7vw solid white;
 }
 
 .why-qmc-card {
@@ -107,6 +108,7 @@ body {
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
+  /* border-bottom: white .7vw solid; */
 }
 
 .name-input, .email-input, .message-input {
@@ -131,14 +133,21 @@ body {
 }
 
 .footer {
-  height: 100px;
-  background-color: rgb(34, 34, 34);
+  height: 70px;
+  background-color: rgb(0, 0, 0);
 }
 
 .t-shadow {
   text-shadow: 2px 2px 0px rgb(0, 0, 0);
 }
 
+
+@media only screen and (max-width: 600px) {
+  .contact, .how-it-works {
+    border-right: none;
+    border-bottom: .7vw solid white;
+  }
+}
 
 /* Questions for Mike Stefanko */
 /* Color ideas for title, CTA button? */
