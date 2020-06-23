@@ -92,6 +92,36 @@ body {
   padding: 5px 20px;
 }
 
+/* MODAL */
+
+.modal-content {
+  background-color: rgb(24, 24, 24);
+  border: 1px solid white;
+  color: white;
+}
+
+.close {
+  color: maroon;
+}
+
+.name-input, .email-input, .message-input {
+  width: 100%;
+  background: black;
+  border: 1px solid maroon;
+  color: white;
+}
+
+.message-input {
+  height: 20vh;
+}
+
+.modal-submit {
+  color: white;
+  background: #ddbd59;
+}
+
+/* .how-it-works-title */
+
  .footer {
   background-color: rgb(0, 0, 0); 
 } 
