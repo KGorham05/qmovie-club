@@ -50,4 +50,15 @@ module.exports = function (app) {
   app.get("/members", isAuthenticated, function (req, res) {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
+
+  app.get("/about", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/about.html")))
+  })
+
+  // Page to display all movies
+  // define route
+  // query db for all movies
+  // respond render the all movies page, passing it all movies data
+
+  
 };
