@@ -12,6 +12,10 @@ body {
   text-shadow: 2px 2px 0px rgb(0, 0, 0);
 }
 
+.red-shadow {
+  text-shadow: -2px 2px 0px rgba(255, 0, 0, 1);
+}
+
 /* NAVBAR */
 .navbar {
   background: rgba(0, 0, 0);
