@@ -28,11 +28,43 @@
   </nav>
 
   <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <h2>Welcome <span class="member-name"></span></h2>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h1><button id="create-group-btn">Create</button> a new group!</h1>
       </div>
     </div>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h1><button id="join-group-btn">Join</button> a private group!</h1>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h1>Join a Public Group</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Group Name</th>
+              <th scope="col">Number of Members</th>
+              <th scope="col">Click to Join!</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Horror Movie Club</th>
+              <td>20</td>
+              <td><button>Join Group</td>
+            </tr>
+            <tr>
+              <th scope="row">Comedy Club</th>
+              <td>40</td>
+              <td><button>Join Group</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
