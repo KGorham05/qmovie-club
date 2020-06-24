@@ -1,24 +1,29 @@
-
+const User = require("./user");
 // Creating our Group model
-module.exports = function (sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
   const Group = sequelize.define("Group", {
     name: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     isPrivate: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
     },
     adminUserId: {
       type: DataTypes.INTEGER,
     },
   });
-  
 
-return Group;
+  Group.associate = function(models) {
+    Group.belongsToMany(models.User, {
+      through: "users_groups",
+    });
+  };
+
+  return Group;
 };
