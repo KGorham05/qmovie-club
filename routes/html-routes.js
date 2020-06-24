@@ -9,24 +9,27 @@ module.exports = function (app) {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/members");
+    } else {
+      res.sendFile(path.join(__dirname, "../public/index.html"));
     }
-    res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 
   app.get("/login", function (req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/members");
+    } else {
+      res.sendFile(path.join(__dirname, "../public/login.html"));
     }
-    res.sendFile(path.join(__dirname, "../public/login.html"));
   });
 
   app.get("/signup", function (req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/members");
+    } else {
+      res.sendFile(path.join(__dirname, "../public/signup.html"));
     }
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
   });
 
   // GOOGLE API
