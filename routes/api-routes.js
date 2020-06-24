@@ -18,11 +18,20 @@ module.exports = function(app) {
     });
   });
 
+  // Route for logging user out
+  app.get("/logout", function(req, res) {
+    req.logout();
+    res.redirect("/");
+  });
+
+  // USER ROUTES -> Move to a controller
+
   /*
    * Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
    * how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
    * otherwise send back an error
    */
+
   app.post("/api/signup", function(req, res) {
     db.User.create({
       email: req.body.email,
@@ -34,12 +43,6 @@ module.exports = function(app) {
       .catch(function(err) {
         res.status(401).json(err);
       });
-  });
-
-  // Route for logging user out
-  app.get("/logout", function(req, res) {
-    req.logout();
-    res.redirect("/");
   });
 
   // Route for getting some data about our user to be used client side
@@ -58,5 +61,22 @@ module.exports = function(app) {
             lastName: req.user[0].lastName,
           });
     }
+  });
+
+  // GROUP ROUTES -> Move to a controller
+  app.post("/api/groups", function(req, res) {
+    db.Group.create({
+      name: req.body.name,
+      description: req.body.description,
+      isPrivate: req.body.isPrivate,
+      adminUserId: req.body.adminUserId
+    })
+      .then(function(dbGroup) {
+        // Redirect to the new group page
+        res.status(201).send(dbGroup);
+      })
+      .catch(function(err) {
+        res.status(401).json(err);
+      });
   });
 };
