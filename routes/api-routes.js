@@ -69,9 +69,10 @@ module.exports = function(app) {
       name: req.body.name,
       description: req.body.description,
       isPrivate: req.body.isPrivate,
-      adminUserId: req.body.adminUserId
+      adminUserId: req.body.adminUserId,
     })
       .then(function(dbGroup) {
+        dbGroup.addUser(req.body.adminUserId)
         // Redirect to the new group page
         res.status(201).send(dbGroup);
       })
