@@ -1,0 +1,61 @@
+* Chat room logic + more - Need to split up into 2 docs */
+.chat-room {
+   height: 100vh; 
+}
+
+.messages-area {
+   height: 95vh;
+   overflow-x: hidden;
+   overflow-y: scroll;
+}
+
+/* Chat */
+#m {
+  height: 40px;
+  padding-left: 10px;
+}
+
+.chat-bubble {
+  border: solid black 1px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.name-stamp, .system-name {
+  padding-top: 5px;
+  padding-left: 10px;
+  margin-bottom: 0px;
+  font-weight: 700;
+}
+
+.message-text, .system-text {
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+}
+
+.system-text {
+  font-weight: 700;
+}
+
+.gif {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.gif-btn {
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .messages-area {
+      height: 87vh;
+   }
+   
+   #messages {
+      padding-left: 0px;
+  }
+
+} 

@@ -1,0 +1,205 @@
+/* GENERAL */
+body {
+  font-family: "Montserrat", sans-serif;
+  /* background-color: rgb(182, 182, 182); */
+}
+
+.invert-color {
+  filter: invert();
+}
+
+.t-shadow {
+  text-shadow: 2px 2px 0px rgb(0, 0, 0);
+}
+
+.red-shadow {
+  text-shadow: -2px 2px 0px rgba(255, 0, 0, 1);
+}
+
+/* NAVBAR */
+.navbar {
+  background: rgba(0, 0, 0);
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)),
+    url("../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 85vh;
+  width: 100%;
+  margin-bottom: 0.7vw;
+  color: white;
+}
+
+.hero-title {
+  font-size: 72px;
+  margin-bottom: 2vh;
+  font-weight: 600;
+}
+
+.icon {
+  max-height: 50px;
+}
+
+.how-it-works {
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+  padding-right: 3vw;
+  padding-left: 3vw;
+}
+
+.hero-cta {
+  color: white;
+  background-color: #ddbd59;
+  border: none;
+  font-family: montserrat;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 1px;
+  padding-right: 60px;
+  padding-left: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.hero-cta:hover, .contact-me-btn:hover {
+  color: white;
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.about {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)),
+    url("../images/maria-ten-b7Hr2YK-FuI-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  min-height: 70vh;
+  width: 100%;
+  margin-bottom: 0.7vw;
+  color: white;
+}
+
+.about p {
+  font-size: 18px;
+}
+
+.contact-me-btn {
+  color: white;
+  font-size: 20px;
+  background-color: #920000;
+  border: none;
+  padding: 5px 20px;
+}
+
+/* MODAL */
+
+.modal-content {
+  background-color: rgb(24, 24, 24);
+  border: 1px solid white;
+  color: white;
+}
+
+.close {
+  color: maroon;
+}
+
+.name-input, .email-input, .message-input {
+  width: 100%;
+  background: black;
+  border: 1px solid maroon;
+  color: white;
+}
+
+.message-input {
+  height: 20vh;
+}
+
+.modal-submit {
+  color: white;
+  background: #ddbd59;
+}
+
+/* .how-it-works-title */
+
+ .footer {
+  background-color: rgb(0, 0, 0); 
+} 
+
+
+/* ****MEDIA QUERIES**** */
+
+/* Add Media Query for really wide screens */
+/* Make about P text larger, about section 75vh */
+
+@media only screen and (max-width: 1401px) {
+  .about p {
+    font-size: 16px;
+  }
+  .contact-me-btn {
+    font-size: 18px;
+  }
+  
+}
+/* Need to add media query for ipads (<1000px hero looks weird) */
+
+@media only screen and (max-width: 600px) {
+  .hero {
+    height: 100vh;
+  }
+
+  .hero-title {
+    font-size: 48px;
+    margin-bottom: 5px;
+  }
+
+  .hero-subtitle {
+    display: none;
+  }
+
+  .hero-cta {
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: relative;
+    bottom: 10px;
+  }
+
+  .how-it-works {
+    margin-top: 2vh;
+  }
+
+  .how-it-works-title {
+    font-size: 18px;
+  }
+
+  .how-it-works-subtitle {
+    display: none;
+  }
+
+  .icon {
+    height: 40px;
+  }
+}
+
+/* Make QMC /Contact /Create by into one row */
+/* Only show how it work */
+/* Increase size of the CTA -> Put How it Works section into Hero Div  */
+
+/* Questions for Mike Stefanko */
+/* Color ideas for title, CTA button? */
+/* 100vh hero or less to indicate content below */
+/* At a loss for what to do with the rest of the background */
+/* Could use some ideas for wireframe/positioning the about section/why section -> what to call these */
+/* About section is for new users explain simply how the site works/what it does */
+/* Why section to mention covid, bringing people together when we cant hang out. Trying to do something to keep people's spirits up */
+/* Also want to practice as a web dev, use as a job tool -> mention me and link my linkedIn, resume, portfolio, contact me section */
+
+/* TO DO */
+/* Optimize hero image */
+/* Media Query to Shrink font sizes on smaller devices */
