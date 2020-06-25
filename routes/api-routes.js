@@ -1,5 +1,7 @@
 const db = require("../models");
 const passport = require("../config/passport");
+const path = require("path");
+const isAuthenticated = require("../config/middleware/isAuthenticated");
 
 module.exports = function(app) {
   /*
@@ -63,7 +65,9 @@ module.exports = function(app) {
     }
   });
 
-  // GROUP ROUTES -> Move to a controller
+  // GROUP ROUTES -> Move to its own controller
+
+  // Route for creating a new group
   app.post("/api/groups", function(req, res) {
     db.Group.create({
       name: req.body.name,
@@ -80,4 +84,11 @@ module.exports = function(app) {
         res.status(401).json(err);
       });
   });
+
+
+  
+ 
+
+
 };
+

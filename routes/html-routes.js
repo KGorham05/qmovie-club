@@ -58,5 +58,13 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/about.html"));
   });
 
- 
+   // A route for displaying a particular groups page
+   app.get('/group/:id', isAuthenticated, function(req, res) {
+    // TO DO
+    // Check if the user trying to access this route belongs to this group
+    // if not, redirect them to the /members route
+    res.sendFile(path.join(__dirname, "../public/group.html"));
+    // if the are, show them that group's page
+  });
+
 };

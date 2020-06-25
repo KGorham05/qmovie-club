@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/stylesheets/group.css">
+  <title>Quarantine Movie Club</title>
+</head>
+
+<body>
+
+  <!-- Nav -->
+  <!-- TODO update this to have different options on this screen -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse w-100" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Welcome to <span id="group-name">Horror Movie Club</span></h1>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="row">
+      <div id="hero" class="col-12 text-center bottom-shadow">
+        <h3 class="red-shad f-white">NOW SHOWING: <span id="current-theme">Current Theme</span></h3>
+        <h1 class="hero-title blk-shad"><span id="upcoming-movie" class="cap-it">Upcoming Movie</span></h1>
+        <h2 class="blk-shad"><span id="showtime-day-and-time">Friday, 8:00 PM PST</span></h2>
+        <h2 class="blk-shad"><span id="showtime-date"></span>6/25/2020</h2>
+      </div>
+    </div>
+
+    <!-- Choices Row -->
+    <div class="row" id="choices-row">
+      <!-- Elements dynamically added here via js -->
+    </div>
+
+    <!-- Votes + Suggestions -->
+    <div class="row">
+      <!-- Voting Results -->
+      <div class="col-md-6 mb-3">
+        <div class="card shadow">
+          <div class="card-body" id="vote-display">
+            <h4 class="card-title">Voting Results</h4>
+            <!-- Dynamically added via js - votes stored in the database -->
+          </div>
+        </div>
+      </div>
+      <!-- Suggest A Movie -->
+      <div class="col-md-6 mb-3">
+        <div class="card shadow" id="suggest-a-movie">
+          <div class="card-body">
+            <h5 class="card-title">Suggest a movie!</h5>
+            <form>
+              <div class="form-group">
+                <label for="movie-input">Movie Title</label>
+                <input type="text" class="form-control" id="movie-input" aria-describedby="movie input">
+              </div>
+              <div class="form-group">
+                <label for="streaming-input">Where is it streaming?</label>
+                <input type="text" class="form-control" id="streaming-input" aria-describedby="streaming input">
+              </div>
+              <button class="btn btn-primary" id="submit-movie-suggestion">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="http://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
