@@ -85,7 +85,17 @@ module.exports = function(app) {
       });
   });
 
-
+  // Route for getting group and it's users data
+  app.get("/api/users_groups/:id", function(req, res) {
+    db.Group.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [db.User]
+    }).then(function(dbData) {
+      res.json(dbData)         
+    })
+  })
   
  
 

@@ -7,7 +7,6 @@ $(document).ready(function() {
     data.email
       ? $("#member-name").text(data.email)
       : $("#member-name").text(`${data.firstName} ${data.lastName}`);
-    console.log(currentUser);
   });
 
   // Event Listeners
