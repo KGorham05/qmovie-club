@@ -77,9 +77,13 @@ module.exports = function(app) {
     })
       .then(function(dbGroup) {
         dbGroup.addUser(req.body.adminUserId).then(function() {
-          console.log('checking if I can chain to this function')
+          console.log("******")
+          db.Board.create({
+            GroupId: dbGroup.id
+          })
+          console.log("******")
         })
-        // Redirect to the new group page
+        // Send the group data to front end
         res.status(201).send(dbGroup);
       })
       .catch(function(err) {
@@ -93,7 +97,13 @@ module.exports = function(app) {
       where: {
         id: req.params.id
       },
-      include: [db.User]
+      include: [db.User,
+        {
+          model: db.Board,
+          where: {
+            isActive: true
+          }
+        }]
     }).then(function(dbData) {
       res.json(dbData)         
     })

@@ -7,6 +7,14 @@ module.exports = function(sequelize, DataTypes) {
     leadingFilm: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    currentTheme: {
+      type: DataTypes.STRING,
+      defaultValue: "Favorite Films"
     }
   });
 
@@ -24,3 +32,4 @@ module.exports = function(sequelize, DataTypes) {
 
   return Board;
 };
+  

@@ -7,6 +7,35 @@ $(document).ready(function() {
   let currentUserIsAdmin = false;
   let adminUserId = null;
 
+  // update marquee with group data
+  const updateMarquee = (groupData) => {
+    // Save references to components to update as variables
+    const groupName = $("#group-name");
+    const currentTheme = $("#current-theme");
+    const upcomingMovie = $("#upcoming-movie");
+    const showDayAndTime = $("#showtime-day-and-time");
+    const showDate = $("#show-date");
+
+    groupName.text(groupData.name);
+    currentTheme.text(groupData.Boards[0].currentTheme);
+    upcomingMovie.text(groupData.Boards[0].leadingFilm);
+    // parse through groupData.Boards[0].nextShowing and split
+    // day and time
+    showDayAndTime.text(groupData.Boards[0].nextShowing);
+    // date
+    showDate.text(groupData.Boards[0].nextShowing);
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   // Get info about the current user
   $.get("/api/user_data")
     .then(function(userData) {
@@ -17,8 +46,9 @@ $(document).ready(function() {
       $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
         adminUserId = groupData.adminUserId;
         // Check if the group is privatew
+        console.log(groupData);
         if (groupData.isPrivate) {
-          console.log('This is a private group')
+          console.log('This is a private group');
           // check if the user belongs to the group
           let userIsInGroup = false;
           for (let i = 0; i < groupData.Users.length; i++) {
@@ -26,27 +56,40 @@ $(document).ready(function() {
               userIsInGroup = true;
             }
           }
-          console.log('is user in group: ' + userIsInGroup)
           if (userIsInGroup) {
             // check if they are the admin
             if (currentUser.id === adminUserId) {
               currentUserIsAdmin = true;
+              console.log("This is the admin user");
             }
             // if they are in the group, update the dom with the group data
-            // TODO finish this
+            updateMarquee(groupData);
           } else {
-            // if not, kick them back to the members route
             window.location.href = "/members";
           }
         } else {
+          // check if they are the admin
+          if (currentUser.id === adminUserId) {
+            currentUserIsAdmin = true;
+            console.log("This is the admin user")
+          }
           // It's a public group, so load in the rest of the data
-          console.log("this is a public group")
+          console.log("this is a public group");
+          updateMarquee(groupData);
         }
+
       });
     });
 
-  // listen for movie add
-  // check if the movie already exists in the movie database
-  // if not, create the movie, add a record to the movie table
-  // add a reference to the boards_movies table
+
+
+    // listen for movie add
+
+
+
+    // check if the movie already exists in the movie database
+    // if not, create the movie, add a record to the movie table
+    // add a reference to the boards_movies table
+
+
 });
