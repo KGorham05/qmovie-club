@@ -15,11 +15,8 @@ $(document).ready(function() {
     .then(function() {
       // Get group data
       $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
-        console.log(groupData);
         adminUserId = groupData.adminUserId;
-        console.log('current user id: ' + currentUser.id)
-        console.log('admin id = ' + adminUserId)
-        // Check if the group is private
+        // Check if the group is privatew
         if (groupData.isPrivate) {
           console.log('This is a private group')
           // check if the user belongs to the group

@@ -23,6 +23,13 @@ module.exports = function(sequelize, DataTypes) {
     Group.belongsToMany(models.User, {
       through: "users_groups",
     });
+
+    Group.hasMany(models.Board, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
+    
   };
 
   return Group;

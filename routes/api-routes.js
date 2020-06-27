@@ -76,7 +76,9 @@ module.exports = function(app) {
       adminUserId: req.body.adminUserId,
     })
       .then(function(dbGroup) {
-        dbGroup.addUser(req.body.adminUserId)
+        dbGroup.addUser(req.body.adminUserId).then(function() {
+          console.log('checking if I can chain to this function')
+        })
         // Redirect to the new group page
         res.status(201).send(dbGroup);
       })

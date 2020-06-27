@@ -18,7 +18,6 @@ $(document).ready(function() {
 
   // Create a group
   $("#create-group-btn").click(() => {
-    console.log("Time to create a group!");
     // Create an object with data from the form
     const newGroup = {
       name: $("#group-name").val(),
