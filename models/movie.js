@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
 
   Movie.associate = function(models) {
     Movie.belongsToMany(models.Board, {
-      through: "boards_movies"
+      through: "Boards_Movies"
     });
   };
 
