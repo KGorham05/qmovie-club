@@ -13,17 +13,21 @@ $(document).ready(function() {
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
     const upcomingMovie = $("#upcoming-movie");
-    const showDayAndTime = $("#showtime-day-and-time");
+    const showDay = $("#show-day");
+    const showTime = $("#show-time");
     const showDate = $("#show-date");
 
-    groupName.text(groupData.name);
-    currentTheme.text(groupData.Boards[0].currentTheme);
-    upcomingMovie.text(groupData.Boards[0].leadingFilm);
+    groupName.text(groupData.name); // working
+    currentTheme.text(groupData.Boards[0].currentTheme); //working 
+    upcomingMovie.text(groupData.Boards[0].leadingFilm); // cant test yet
     // parse through groupData.Boards[0].nextShowing and split
     // day and time
-    showDayAndTime.text(groupData.Boards[0].nextShowing);
-    // date
-    showDate.text(groupData.Boards[0].nextShowing);
+    // use moment.js to get day from date string
+
+    groupData.Board[0].nextShowing
+    // showDay.text();
+    // showDate.text();
+    // showTime.text();
     
   }
   

@@ -9,6 +9,10 @@ $(document).ready(function() {
       : $("#member-name").text(`${data.firstName} ${data.lastName}`);
   });
 
+  // initialize the date picker
+  $( "#datepicker" ).datepicker();
+
+
   // Event Listeners
 
   // Open the create group modal
@@ -21,9 +25,13 @@ $(document).ready(function() {
     // Create an object with data from the form
     const newGroup = {
       name: $("#group-name").val(),
-      description: $("#message-text").val(),
+      description: $("#group-description").val(),
       isPrivate: $("input[name=is-private]:checked").val(),
       adminUserId: currentUser.id,
+      nextShowing: $("#datepicker").val(), 
+      firstTheme: $("#theme").val(),
+      showTime: $("#show-time").val(),
+      timeZone: $("#time-zone").val()
     };
     console.log(newGroup);
     $.post("/api/groups", newGroup)

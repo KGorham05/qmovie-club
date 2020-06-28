@@ -79,8 +79,12 @@ module.exports = function(app) {
         dbGroup.addUser(req.body.adminUserId).then(function() {
           console.log("******")
           db.Board.create({
-            GroupId: dbGroup.id
-          })
+            GroupId: dbGroup.id,
+            nextShowing: req.body.nextShowing,
+            currentTheme: req.body.firstTheme,
+            timeZone: req.body.timeZone,
+            showTime: req.body.showTime
+          });
           console.log("******")
         })
         // Send the group data to front end

@@ -15,6 +15,12 @@ module.exports = function(sequelize, DataTypes) {
     currentTheme: {
       type: DataTypes.STRING,
       defaultValue: "Favorite Films"
+    },
+    showTime: {
+      type: DataTypes.STRING,
+    },
+    timeZone: {
+      type: DataTypes.STRING
     }
   });
 
