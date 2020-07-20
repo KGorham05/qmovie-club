@@ -1,0 +1,87 @@
+body {
+  background: rgb(189, 189, 189);
+}
+
+.navbar {
+  background: rgba(0, 0, 0);
+}
+
+.red-shad {
+  text-shadow: -1px 1px 3px rgba(255,0,0,1);
+}
+
+.blk-shad {
+  text-shadow: 2px 2px black;
+}
+
+.f-white {
+  color: white;
+}
+
+#hero {
+  background-color: #363636;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, .2), rgba(0, 0, 0, .8)), url("../images/corina-rainer-9FDI-_E29fk-unsplash.jpg");
+  color: yellow;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  margin-bottom: 50px;
+  padding-top: 75px;
+  padding-bottom: 75px;
+}
+
+.hero-title {
+  font-size: 58px;
+  margin-top: 10px;
+}
+
+.theme {
+  color: white;
+  text-shadow: 2px 2px black;
+  font-size: 36px;
+}
+/* Chat room logic + more - Need to split up into 2 docs */
+.chat-room {
+ height: 100vh; 
+}
+
+.messages-area {
+ height: 95vh;
+ overflow-x: hidden;
+ overflow-y: scroll;
+}
+
+.jumbotron {
+  margin-top:40px;
+}
+
+.bottom-shadow {
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+#upcoming-movie {
+  text-transform: capitalize;
+}
+
+.movie-title {
+  font-weight: 700;
+}
+
+.year {
+  color: blue;
+}
+
+.year-and-genre, .ratings {
+  margin-bottom: 2px;
+}
+
+.plot {
+  /* font-weight: 600; */
+  /* font-size: 18px; */
+  margin-top: 5px;
+  font-style: italic;
+}
+
