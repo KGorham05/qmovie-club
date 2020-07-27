@@ -77,16 +77,16 @@ module.exports = function(app) {
     })
       .then(function(dbGroup) {
         dbGroup.addUser(req.body.adminUserId).then(function() {
-          console.log("******")
+          console.log("******");
           db.Board.create({
             GroupId: dbGroup.id,
             nextShowing: req.body.nextShowing,
             currentTheme: req.body.firstTheme,
             timeZone: req.body.timeZone,
-            showTime: req.body.showTime
+            showTime: req.body.showTime,
           });
-          console.log("******")
-        })
+          console.log("******");
+        });
         // Send the group data to front end
         res.status(201).send(dbGroup);
       })
@@ -99,22 +99,51 @@ module.exports = function(app) {
   app.get("/api/users_groups/:id", function(req, res) {
     db.Group.findOne({
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
-      include: [db.User,
+      include: [
+        db.User,
         {
           model: db.Board,
           where: {
-            isActive: true
-          }
-        }]
+            isActive: true,
+          },
+        },
+      ],
     }).then(function(dbData) {
-      res.json(dbData)         
+      res.json(dbData);
+    });
+  });
+
+  // Route for getting a movie from the db
+  app.get("/api/movie/:title", function(req, res) {
+    db.Movie.findOne({
+      where: {
+        title: req.params.title,
+      },
+    })
+      .then((dbMovie) => {
+        console.log(dbMovie);
+        res.json(dbMovie);
+      })
+      .catch((error) => {
+        res.status(404).json(error);
+      });
+  });
+
+  app.post("/api/movie", function(req, res) {
+    db.Movie.create(req.body)
+    .then((dbMovie) => {
+      console.log("MOVIE CREATED")
+      res.json(dbMovie)
+    }).catch((err) => {
+      res.status(409).json(err)
     })
   })
-  
- 
+
+
+
+
 
 
 };
-

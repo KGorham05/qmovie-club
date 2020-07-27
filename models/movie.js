@@ -17,6 +17,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     title: {
       type: DataTypes.STRING,
+      unique: true
     },
     tomatoes: {
       type: DataTypes.STRING,

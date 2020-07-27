@@ -6,7 +6,7 @@ $(document).ready(function() {
   let currentUser = null;
   let currentUserIsAdmin = false;
   let adminUserId = null;
-
+  let movieAlreadySaved = false;
   // update marquee with group data
   const updateMarquee = (groupData) => {
     // Save references to components to update as variables
@@ -17,16 +17,16 @@ $(document).ready(function() {
     const showTime = $("#show-time");
     const showDate = $("#show-date");
     const timeZone = $("#time-zone");
-    
+
     timeZone.text(groupData.Boards[0].timeZone);
-    groupName.text(groupData.name); 
-    currentTheme.text(groupData.Boards[0].currentTheme); 
+    groupName.text(groupData.name);
+    currentTheme.text(groupData.Boards[0].currentTheme);
     // upcomingMovie.text(groupData.Boards[0].leadingFilm); // not added yet
     showDay.text(moment(groupData.Boards[0].nextShowing).format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
     showTime.text(groupData.Boards[0].showTime).toUpperCase();
-  }
-    
+  };
+
   // On page load, get info about the current user
   $.get("/api/user_data")
     .then(function(userData) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
         // Check if the group is privatew
         console.log(groupData);
         if (groupData.isPrivate) {
-          console.log('This is a private group');
+          console.log("This is a private group");
           // check if the user belongs to the group
           let userIsInGroup = false;
           for (let i = 0; i < groupData.Users.length; i++) {
@@ -62,7 +62,7 @@ $(document).ready(function() {
           // check if they are the admin
           if (currentUser.id === adminUserId) {
             currentUserIsAdmin = true;
-            console.log("This is the admin user")
+            console.log("This is the admin user");
           }
           // It's a public group, so load in the rest of the data
           console.log("this is a public group");
@@ -71,76 +71,87 @@ $(document).ready(function() {
       });
     });
 
-    // listen for movie add
-    $("#submit-movie-suggestion").click(function (e) {
-      // prevent the page from reloading
-      e.preventDefault();
-      const movie = $("#movie-input")
-        .val()
-        .trim();
-      const streaming = $("#streaming-input")
-        .val()
-        .trim();
-      var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
-  
-      // CHECK IF THE MOVIE IS IN THE DB
-      // IF IT IS, add it to the group/movie board
-      // if it is not, call for it with ajax
+  // listen for movie add
+  $("#submit-movie-suggestion").click(function(e) {
+    // prevent the page from reloading
+    e.preventDefault();
+    const movie = $("#movie-input")
+      .val()
+      .trim();
+    const streaming = $("#streaming-input")
+      .val()
+      .trim();
+    var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
 
-
-      // Creating an AJAX call for the specific movie button being clicked
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      }).then(function (response) {
-        console.log(response);
-        // handle error
-        if (response.Error) {
-          alert(response.Error)
-        } 
-
-
-        // Send the relevant data from omdb to firebase along with suggestBy
-        // Creates local "temporary" object for holding train data
-  
-        // Ratings":[{"Source":"Rotten Tomatoes","Value":"82%"}]
-        let tomatoes = "NA";
-  
-        for (var i = 0; i < response.Ratings.length; i++) {
-          if (response.Ratings[i].Source === "Rotten Tomatoes") {
-            tomatoes = response.Ratings[i].Value;
-          }
-        }
-  
-        const newMovie = {
-          year: response.Year,
-          genre: response.Genre,
-          imdbRating: response.imdbRating,
-          tomatoes: tomatoes,
-          title: movie,
-          streaming: streaming,
-          image: response.Poster,
-          synopsis: response.Plot,
-          numVotes: 0
-        };
-  
-        console.log(newMovie)
-  
-       // Upload the movie to the DB
-       
-  
-        // Clears all of the text-boxes
+    // CHECK IF THE MOVIE IS IN THE DB
+    $.ajax({
+      url: "/api/movie/" + movie,
+      method: "GET",
+    }).then(function(response) {
+      console.log(response);
+      // If I get a response, it is already in the DB
+      if (response) {
+        movieAlreadySaved = true;
+        console.log("movieAlreadySaved: " + movieAlreadySaved);
         $("#movie-input").val("");
         $("#streaming-input").val("");
-        // Alert
-        alert("Movie successfully added");
-      });
+        // TODO: Associate it with this board
+      }
+
+      // If ther response is null, hit IMBD for it
+      if (!response) {
+        console.log("No record of movie in the DB");
+        movieAlreadySaved = false;
+        $.ajax({
+          url: queryURL,
+          method: "GET",
+        }).then(function(response) {
+          console.log(response);
+          if (response.Error) {
+            alert(response.Error);
+          }
+          
+          // Then Add it to the DB
+          let tomatoes = "NA";
+          for (var i = 0; i < response.Ratings.length; i++) {
+            if (response.Ratings[i].Source === "Rotten Tomatoes") {
+              tomatoes = response.Ratings[i].Value;
+            }
+          }
+          const newMovie = {
+            genre: response.Genre,
+            image: response.Poster,
+            imdbRating: response.imdbRating,
+            streamingService: streaming,
+            synopsis: response.Plot,
+            title: movie,
+            tomatoes: tomatoes,
+            releaseYear: response.Year,
+          };
+
+          // Upload the movie to the DB
+          $.ajax({
+            method: "POST",
+            url: "/api/movie",
+            data: newMovie,
+          }).then((response) => {
+            console.log(response);
+          });
+
+          // Clears all of the text-boxes
+          $("#movie-input").val("");
+          $("#streaming-input").val("");
+          // Alert
+          // TODO: Associate it with this board
+
+          alert("Movie successfully added");
+        });
+      }
     });
 
-
-    // check if the movie already exists in the movie database
-    // if not, create the movie, add a record to the movie table
-    // add a reference to the boards_movies table
+    // DO I need this line?
+    movieAlreadySaved = false;
+  });
 
 
 });
