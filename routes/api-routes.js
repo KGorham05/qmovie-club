@@ -4,7 +4,6 @@ const path = require("path");
 const isAuthenticated = require("../config/middleware/isAuthenticated");
 
 module.exports = function(app) {
-  
   // USER ROUTES -> Move to a controller
 
   // login
@@ -66,10 +65,10 @@ module.exports = function(app) {
       description: req.body.description,
       isPrivate: req.body.isPrivate,
       adminUserId: req.body.adminUserId,
-    })
-      .then(function(dbGroup) {
-        dbGroup.addUser(req.body.adminUserId).then(function() {
-          console.log("******");
+    }).then(function(dbGroup) {
+      dbGroup
+        .addUser(req.body.adminUserId)
+        .then(function() {
           db.Board.create({
             GroupId: dbGroup.id,
             nextShowing: req.body.nextShowing,
@@ -77,14 +76,15 @@ module.exports = function(app) {
             timeZone: req.body.timeZone,
             showTime: req.body.showTime,
           });
-          console.log("******");
+        })
+        .then((dbData) => {
+          // Send the group data to front end
+          res.status(201).send(dbGroup);
+        })
+        .catch(function(err) {
+          res.status(401).json(err);
         });
-        // Send the group data to front end
-        res.status(201).send(dbGroup);
-      })
-      .catch(function(err) {
-        res.status(401).json(err);
-      });
+    });
   });
 
   // Route for getting a group, it's active board, and it's users data
@@ -128,27 +128,24 @@ module.exports = function(app) {
   // create movie
   app.post("/api/movie", function(req, res) {
     db.Movie.create(req.body)
-    .then((dbMovie) => {
-      console.log("MOVIE CREATED")
-      res.json(dbMovie)
-    }).catch((err) => {
-      res.status(409).json(err)
-    })
-  })
+      .then((dbMovie) => {
+        console.log("MOVIE CREATED");
+        res.json(dbMovie);
+      })
+      .catch((err) => {
+        res.status(409).json(err);
+      });
+  });
 
   // Route for associating a movie with a board
   app.post("/api/boards_movies/", function(req, res) {
     db.Boards_Movies.create({
       MovieId: req.body.MovieId,
-      BoardId: req.body.BoardId
-
-    })
-  })
-  
-
-
-
-
-
-
+      BoardId: req.body.BoardId,
+    }).then((dbRecord) => {
+      res.json(dbRecord)
+    }).catch(function(err) {
+      res.status(409).json(err);
+    });
+  });
 };
