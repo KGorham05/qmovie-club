@@ -7,6 +7,8 @@ $(document).ready(function() {
   let currentUserIsAdmin = false;
   let adminUserId = null;
   let movieAlreadySaved = false;
+  let currentBoardId = null;
+  let currentMovieId = null;
   // update marquee with group data
   const updateMarquee = (groupData) => {
     // Save references to components to update as variables
@@ -36,8 +38,11 @@ $(document).ready(function() {
       // Get group data
       $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
         adminUserId = groupData.adminUserId;
-        // Check if the group is privatew
+        // Check if the group is private
         console.log(groupData);
+        // save the board ID as a variable for adding movies
+        currentBoardId = groupData.Boards[0].id;
+
         if (groupData.isPrivate) {
           console.log("This is a private group");
           // check if the user belongs to the group
@@ -89,13 +94,16 @@ $(document).ready(function() {
       method: "GET",
     }).then(function(response) {
       console.log(response);
+
       // If I get a response, it is already in the DB
       if (response) {
         movieAlreadySaved = true;
+        // This response has the movie key
+        currentMovieId = response.id;
         console.log("movieAlreadySaved: " + movieAlreadySaved);
         $("#movie-input").val("");
         $("#streaming-input").val("");
-        // TODO: Associate it with this board
+        addMovieToBoard(currentMovieId, currentBoardId);
       }
 
       // If ther response is null, hit IMBD for it
@@ -110,7 +118,7 @@ $(document).ready(function() {
           if (response.Error) {
             alert(response.Error);
           }
-          
+
           // Then Add it to the DB
           let tomatoes = "NA";
           for (var i = 0; i < response.Ratings.length; i++) {
@@ -136,13 +144,15 @@ $(document).ready(function() {
             data: newMovie,
           }).then((response) => {
             console.log(response);
+            currentMovieId = response.id;
+            addMovieToBoard(currentMovieId, currentBoardId);
           });
 
           // Clears all of the text-boxes
           $("#movie-input").val("");
           $("#streaming-input").val("");
           // Alert
-          // TODO: Associate it with this board
+          
 
           alert("Movie successfully added");
         });
@@ -152,6 +162,21 @@ $(document).ready(function() {
     // DO I need this line?
     movieAlreadySaved = false;
   });
+
+  const addMovieToBoard = (movieId, boardId) => {
+
+    $.ajax({
+      method: "POST",
+      url: "/api/boards_movies",
+      data: {
+        MovieId: movieId,
+        BoardId: boardId
+      }
+    }).then((response) => {
+      console.log(response)
+    });
+
+  };
 
 
 });

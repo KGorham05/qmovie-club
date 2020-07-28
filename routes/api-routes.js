@@ -4,11 +4,10 @@ const path = require("path");
 const isAuthenticated = require("../config/middleware/isAuthenticated");
 
 module.exports = function(app) {
-  /*
-   * Using the passport.authenticate middleware with our local strategy.
-   * If the user has valid login credentials, send them to the members page.
-   * Otherwise the user will be sent an error
-   */
+  
+  // USER ROUTES -> Move to a controller
+
+  // login
   app.post("/api/login", passport.authenticate(["local", "google"]), function(
     req,
     res
@@ -20,20 +19,13 @@ module.exports = function(app) {
     });
   });
 
-  // Route for logging user out
+  // logout
   app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
 
-  // USER ROUTES -> Move to a controller
-
-  /*
-   * Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-   * how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-   * otherwise send back an error
-   */
-
+  // sign up
   app.post("/api/signup", function(req, res) {
     db.User.create({
       email: req.body.email,
@@ -47,7 +39,7 @@ module.exports = function(app) {
       });
   });
 
-  // Route for getting some data about our user to be used client side
+  // get user data -> this is actually getting group data that includes the current board and current users, should maybe change the name of this route
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       console.log("No user logged in");
@@ -95,7 +87,7 @@ module.exports = function(app) {
       });
   });
 
-  // Route for getting group and it's users data
+  // Route for getting a group, it's active board, and it's users data
   app.get("/api/users_groups/:id", function(req, res) {
     db.Group.findOne({
       where: {
@@ -115,7 +107,9 @@ module.exports = function(app) {
     });
   });
 
-  // Route for getting a movie from the db
+  // MOVIE ROUTES
+
+  // read by title
   app.get("/api/movie/:title", function(req, res) {
     db.Movie.findOne({
       where: {
@@ -131,6 +125,7 @@ module.exports = function(app) {
       });
   });
 
+  // create movie
   app.post("/api/movie", function(req, res) {
     db.Movie.create(req.body)
     .then((dbMovie) => {
@@ -140,6 +135,16 @@ module.exports = function(app) {
       res.status(409).json(err)
     })
   })
+
+  // Route for associating a movie with a board
+  app.post("/api/boards_movies/", function(req, res) {
+    db.Boards_Movies.create({
+      MovieId: req.body.MovieId,
+      BoardId: req.body.BoardId
+
+    })
+  })
+  
 
 
 
