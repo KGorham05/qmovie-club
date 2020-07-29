@@ -172,8 +172,9 @@ $(document).ready(function() {
         MovieId: movieId,
         BoardId: boardId
       }
-    }).then((response) => {
+    }).then((response, error) => {
       console.log(response)
+      if (error) {console.log(error)}
     });
 
   };

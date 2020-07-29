@@ -79,7 +79,7 @@ module.exports = function(app) {
         })
         .then((dbData) => {
           // Send the group data to front end
-          res.status(201).send(dbGroup);
+          res.status(201).send(dbData);
         })
         .catch(function(err) {
           res.status(401).json(err);
@@ -106,6 +106,19 @@ module.exports = function(app) {
       res.json(dbData);
     });
   });
+
+  // Route for getting a group's active board's movies
+  app.get("/api/group/:boardId", function(req, res) {
+    db.Boards_Movies.findAll({
+      where: {
+        id: req.params.boardId
+      },
+      include: [db.Movie]
+    }).then(dbBoard_Movies => {
+      res.json(dbBoard_Movies)
+    })
+  })
+
 
   // MOVIE ROUTES
 
@@ -145,6 +158,7 @@ module.exports = function(app) {
     }).then((dbRecord) => {
       res.json(dbRecord)
     }).catch(function(err) {
+      console.log(err);
       res.status(409).json(err);
     });
   });
