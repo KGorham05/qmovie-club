@@ -38,7 +38,7 @@ module.exports = function(app) {
       });
   });
 
-  // get user data -> this is actually getting group data that includes the current board and current users, should maybe change the name of this route
+  // get user data
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       console.log("No user logged in");
@@ -57,7 +57,6 @@ module.exports = function(app) {
   });
 
   // GROUP ROUTES -> Move to its own controller
-
   // Route for creating a new group
   app.post("/api/groups", function(req, res) {
     db.Group.create({
@@ -87,7 +86,7 @@ module.exports = function(app) {
     });
   });
 
-  // Route for getting a group, it's active board, and it's users data
+  // Route for getting a group's data
   app.get("/api/users_groups/:id", function(req, res) {
     db.Group.findOne({
       where: {
@@ -107,21 +106,25 @@ module.exports = function(app) {
     });
   });
 
-  // Route for getting a group's active board's movies
-  app.get("/api/group/:boardId", function(req, res) {
-    db.Boards_Movies.findAll({
+  // Route for getting a group's active board's movies, and numVotes for each
+  app.get("/api/group/movies/:boardId", function(req, res) {
+    // query board, including the associated movies
+    db.Board.findOne({
       where: {
-        id: req.params.boardId
+        id: req.params.boardId,
       },
-      include: [db.Movie]
-    }).then(dbBoard_Movies => {
-      res.json(dbBoard_Movies)
-    })
-  })
-
+      include: {
+        model: db.Movie,
+        through: {
+          attributes: ["numVotes"]
+        }
+      },
+    }).then((dbBoard_Movies) => {
+      res.json(dbBoard_Movies);
+    });
+  });
 
   // MOVIE ROUTES
-
   // read by title
   app.get("/api/movie/:title", function(req, res) {
     db.Movie.findOne({
@@ -155,11 +158,15 @@ module.exports = function(app) {
     db.Boards_Movies.create({
       MovieId: req.body.MovieId,
       BoardId: req.body.BoardId,
-    }).then((dbRecord) => {
-      res.json(dbRecord)
-    }).catch(function(err) {
-      console.log(err);
-      res.status(409).json(err);
-    });
+    })
+      .then((dbRecord) => {
+        res.json(dbRecord);
+      })
+      .catch(function(err) {
+        console.log(err);
+        res.status(409).json(err);
+      });
   });
+
+
 };

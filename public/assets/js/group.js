@@ -3,14 +3,17 @@ $(document).ready(function() {
   // Load the groups info based of the current URL
   const pathname = window.location.pathname;
   const groupId = pathname.split("/")[2];
+  const movieRow = $("#movie-card-row");
   let currentUser = null;
   let currentUserIsAdmin = false;
   let adminUserId = null;
   let movieAlreadySaved = false;
   let currentBoardId = null;
   let currentMovieId = null;
+
   // update marquee with group data
   const updateMarquee = (groupData) => {
+    console.log("Updating Marquee");
     // Save references to components to update as variables
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
@@ -26,7 +29,103 @@ $(document).ready(function() {
     // upcomingMovie.text(groupData.Boards[0].leadingFilm); // not added yet
     showDay.text(moment(groupData.Boards[0].nextShowing).format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
-    showTime.text(groupData.Boards[0].showTime).toUpperCase();
+    // showTime.text(groupData.Boards[0].showTime).toUpperCase();
+    console.log("Getting movie data");
+    $.ajax({
+      method: "Get",
+      url: "/api/group/" + currentBoardId,
+    }).then((movieSuggestionsData) => {
+      console.log(movieSuggestionsData);
+    });
+  };
+
+  const addMovieToBoard = (movieId, boardId) => {
+    $.ajax({
+      method: "POST",
+      url: "/api/boards_movies",
+      data: {
+        MovieId: movieId,
+        BoardId: boardId,
+      },
+    }).then((response, error) => {
+      console.log(response);
+      if (error) {
+        console.log(error);
+      }
+      populateMovieData();
+    });
+  };
+
+  const buildMovieCards = (movies) => {
+    movieRow.empty();
+    movies.map((movie) => {
+      console.log(movie);
+      // store all the data from the db as a variable
+      const title = movie.title;
+      const image = movie.image;
+      const synopsis = movie.synopsis;;
+      const stream = movie.streamingService;
+      const year = movie.releaseYear;
+      const genre = movie.genre;
+      const tomatoes = movie.tomatoes;
+      const imdbRating = movie.imdbRating;
+      const id = movie.id;
+      // Build the html components with the data from the db
+      //  the column
+      const column = $("<div>").addClass("col-md-3");
+      //  the div.card
+      const card = $("<div>").addClass("card shadow mb-3 movie");
+      //  the img tag
+      const img = $("<img>")
+        .addClass("card-img-top")
+        .attr("src", image);
+      //  the card body div
+      const cardBody = $("<div>").addClass("card-body movie-info");
+      //  the h5 for the title
+      const movieTitle = $("<h5 class='movie-title'>").html(
+        title + " - " + stream
+      );
+      // Year + Genre
+      const yearAndGenre = $("<p class='year-and-genre'>").html(
+        `<span class="year">(${year})</span> ${genre}`
+      );
+      // Ratings (IMBD + Tomatoes)
+      const ratings = $("<p class='ratings'>").text(
+        `IMBD: ${imdbRating} Tomatoes: ${tomatoes}`
+      );
+      //  the p tag for short synopsis
+      const movieSynopsis = $("<p class='plot'>").text(synopsis);
+      //  div to center the button
+      const centerTheText = $("<div>").addClass("text-center");
+      //  btn
+      const voteBtn = $("<button>")
+        .addClass("btn btn-primary vote-btn")
+        .text("Click to Vote");
+      voteBtn.attr("data-id", id);
+      
+
+      // add the elements to the page
+      cardBody
+        .append(movieTitle)
+        .append(yearAndGenre)
+        .append(ratings)
+        .append(movieSynopsis)
+        .append(centerTheText);
+      centerTheText.append(voteBtn);
+      card.append(img).append(cardBody);
+      column.append(card);
+      movieRow.append(column);
+    });
+  };
+
+  const populateMovieData = () => {
+    console.log("Getting movie data");
+    $.ajax({
+      method: "GET",
+      url: "/api/group/movies/" + currentBoardId,
+    }).then((movieSuggestionsData) => {
+      buildMovieCards(movieSuggestionsData.Movies);
+    });
   };
 
   // On page load, get info about the current user
@@ -60,6 +159,7 @@ $(document).ready(function() {
             }
             // if they are in the group, update the dom with the group data
             updateMarquee(groupData);
+            populateMovieData();
           } else {
             window.location.href = "/members";
           }
@@ -72,6 +172,7 @@ $(document).ready(function() {
           // It's a public group, so load in the rest of the data
           console.log("this is a public group");
           updateMarquee(groupData);
+          populateMovieData();
         }
       });
     });
@@ -152,7 +253,6 @@ $(document).ready(function() {
           $("#movie-input").val("");
           $("#streaming-input").val("");
           // Alert
-          
 
           alert("Movie successfully added");
         });
@@ -162,22 +262,4 @@ $(document).ready(function() {
     // DO I need this line?
     movieAlreadySaved = false;
   });
-
-  const addMovieToBoard = (movieId, boardId) => {
-
-    $.ajax({
-      method: "POST",
-      url: "/api/boards_movies",
-      data: {
-        MovieId: movieId,
-        BoardId: boardId
-      }
-    }).then((response, error) => {
-      console.log(response)
-      if (error) {console.log(error)}
-    });
-
-  };
-
-
 });
