@@ -116,8 +116,8 @@ module.exports = function(app) {
       include: {
         model: db.Movie,
         through: {
-          attributes: ["numVotes"]
-        }
+          attributes: ["numVotes"],
+        },
       },
     }).then((dbBoard_Movies) => {
       res.json(dbBoard_Movies);
@@ -170,8 +170,21 @@ module.exports = function(app) {
 
   // add vote to a board_movie record
   app.put("/api/boards_movies/:id", function(req, res) {
-    console.log(req.body)
-    console.log(req.body.votesIncremented)
-    
-  })
+    db.Boards_Movies.update(
+      {
+        numVotes: req.body.votes,
+      },
+      {
+        where: {
+          MovieId: req.params.id,
+        }
+      }
+    )
+      .then((dbRecord) => {
+        res.json(dbRecord);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  });
 };

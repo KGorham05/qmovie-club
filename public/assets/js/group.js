@@ -131,12 +131,13 @@ $(document).ready(function() {
   };
 
   const addVote = (id, voteCount) => {
-    let votesIncremented = voteCount++
-    console.log(votesIncremented)
+    voteCount++;
     $.ajax({
       method: "PUT",
       url: "/api/boards_movies/" + id,
-      data: votesIncremented
+      data: {
+        votes: voteCount
+      }
     }).then(res => {
       console.log(res)
     })
