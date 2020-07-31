@@ -130,13 +130,14 @@ $(document).ready(function() {
     });
   };
 
-  const addVote = (id, voteCount) => {
-    voteCount++;
+  const addVote = (id, votes) => {
     $.ajax({
       method: "PUT",
-      url: "/api/boards_movies/" + id,
+      url: "/api/boards_movies/",
       data: {
-        votes: voteCount
+        votes: votes,
+        movieId: id,
+        boardId: currentBoardId
       }
     }).then(res => {
       console.log(res)
@@ -282,10 +283,16 @@ $(document).ready(function() {
   movieRow.on('click', ".vote-btn", function() {
     // console.log(this.data("id"))
     const id = $(this).data("id")
-    const votes = $(this).data("votes")
-    console.log(id + ", " + votes)
+    let votes = $(this).data("votes")
+    console.log(votes);
+    // increment the votes
+    votes++;
+    console.log(votes);
     // check if the user has any votes available
     // if yes, update the numVotes on the boards_movies table
+    // update the vote button in case it is clicked again
+
+    $(this).data("votes", votes)
     addVote(id, votes);
     // if not, alert them that they have to wait until tomorrow to vote again
 

@@ -169,16 +169,17 @@ module.exports = function(app) {
   });
 
   // add vote to a board_movie record
-  app.put("/api/boards_movies/:id", function(req, res) {
+  app.put("/api/boards_movies/", function(req, res) {
     db.Boards_Movies.update(
       {
         numVotes: req.body.votes,
       },
       {
         where: {
-          MovieId: req.params.id,
+          MovieId: req.body.movieId,
+          BoardId: req.body.boardId
         }
-      }
+      },
     )
       .then((dbRecord) => {
         res.json(dbRecord);
