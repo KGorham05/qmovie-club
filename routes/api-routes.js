@@ -168,5 +168,10 @@ module.exports = function(app) {
       });
   });
 
-
+  // add vote to a board_movie record
+  app.put("/api/boards_movies/:id", function(req, res) {
+    console.log(req.body)
+    console.log(req.body.votesIncremented)
+    
+  })
 };

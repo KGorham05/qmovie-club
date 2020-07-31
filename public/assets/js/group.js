@@ -12,7 +12,7 @@ $(document).ready(function() {
   let currentMovieId = null;
 
   // update marquee with group data
-  const updateMarquee = (groupData) => {
+  const updateMarquee = groupData => {
     console.log("Updating Marquee");
     // Save references to components to update as variables
     const groupName = $("#group-name");
@@ -56,7 +56,7 @@ $(document).ready(function() {
     });
   };
 
-  const buildMovieCards = (movies) => {
+  const buildMovieCards = movies => {
     movieRow.empty();
     movies.map((movie) => {
       console.log(movie);
@@ -70,6 +70,7 @@ $(document).ready(function() {
       const tomatoes = movie.tomatoes;
       const imdbRating = movie.imdbRating;
       const id = movie.id;
+      const numVotes = movie.Boards_Movies.numVotes ;
       // Build the html components with the data from the db
       //  the column
       const column = $("<div>").addClass("col-md-3");
@@ -102,6 +103,7 @@ $(document).ready(function() {
         .addClass("btn btn-primary vote-btn")
         .text("Click to Vote");
       voteBtn.attr("data-id", id);
+      voteBtn.attr("data-votes", numVotes);
       
 
       // add the elements to the page
@@ -127,6 +129,18 @@ $(document).ready(function() {
       buildMovieCards(movieSuggestionsData.Movies);
     });
   };
+
+  const addVote = (id, voteCount) => {
+    let votesIncremented = voteCount++
+    console.log(votesIncremented)
+    $.ajax({
+      method: "PUT",
+      url: "/api/boards_movies/" + id,
+      data: votesIncremented
+    }).then(res => {
+      console.log(res)
+    })
+  }
 
   // On page load, get info about the current user
   $.get("/api/user_data")
@@ -262,4 +276,23 @@ $(document).ready(function() {
     // DO I need this line?
     movieAlreadySaved = false;
   });
+
+  // listen for clicking vote button 
+  movieRow.on('click', ".vote-btn", function() {
+    // console.log(this.data("id"))
+    const id = $(this).data("id")
+    const votes = $(this).data("votes")
+    console.log(id + ", " + votes)
+    // check if the user has any votes available
+    // if yes, update the numVotes on the boards_movies table
+    addVote(id, votes);
+    // if not, alert them that they have to wait until tomorrow to vote again
+
+    // check all movie votes, update leading film (make this it's own function)
+  })
+  // determine which movie has the most votes
+  // set it as leading movie in the db
+
+
+
 });
