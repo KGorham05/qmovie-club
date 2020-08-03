@@ -1,7 +1,7 @@
 $(document).ready(function() {
   let currentUser = null;
   // Add user's name or email to page
-  $.get("/api/user_data").then(function(data) {
+  $.get("/api/user").then(function(data) {
     console.log(data);
     currentUser = data;
     data.email
@@ -37,7 +37,7 @@ $(document).ready(function() {
     $.post("/api/groups", newGroup)
       .then(function(data) {
         console.log(data)
-        window.location.replace(`/group/${data.id}`);
+        window.location.replace(`/group/${data.GroupId}`);
         // If there's an error, handle it by throwing up a bootstrap alert
       })
       .catch(handleLoginErr);

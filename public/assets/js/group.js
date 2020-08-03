@@ -145,7 +145,7 @@ $(document).ready(function() {
   }
 
   // On page load, get info about the current user
-  $.get("/api/user_data")
+  $.get("/api/user")
     .then(function(userData) {
       currentUser = userData;
     })

@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
 
   Group.associate = function(models) {
     Group.belongsToMany(models.User, {
-      through: "users_groups",
+      through: "Users_Groups",
     });
 
     Group.hasMany(models.Board, {

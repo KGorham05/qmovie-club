@@ -2,6 +2,8 @@ const db = require("../models");
 const passport = require("../config/passport");
 const path = require("path");
 const isAuthenticated = require("../config/middleware/isAuthenticated");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 module.exports = function(app) {
   // USER ROUTES -> Move to a controller
@@ -39,7 +41,7 @@ module.exports = function(app) {
   });
 
   // get user data
-  app.get("/api/user_data", function(req, res) {
+  app.get("/api/user", function(req, res) {
     if (!req.user) {
       console.log("No user logged in");
       res.json({});
@@ -56,8 +58,30 @@ module.exports = function(app) {
     }
   });
 
+  // Route for resetting the numVotes for all users, that will run on a cron job
+  app.put("/api/users", function(req, res) {
+    db.Users_Groups.update(
+      {
+        numVotes: 3,
+      },
+      {
+        where: {
+          numVotes: {
+            [Op.lte]: [3],
+          },
+        },
+      }
+    ).then((dbUsers) => {
+      console.log("Votes Reset");
+      res.json({
+        reset: true,
+      });
+    });
+  });
+
   // GROUP ROUTES -> Move to its own controller
   // Route for creating a new group
+  // This is erroring
   app.post("/api/groups", function(req, res) {
     db.Group.create({
       name: req.body.name,
@@ -177,9 +201,9 @@ module.exports = function(app) {
       {
         where: {
           MovieId: req.body.movieId,
-          BoardId: req.body.boardId
-        }
-      },
+          BoardId: req.body.boardId,
+        },
+      }
     )
       .then((dbRecord) => {
         res.json(dbRecord);

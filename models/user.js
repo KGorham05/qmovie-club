@@ -46,7 +46,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
   User.associate = function(models) {
-    User.belongsToMany(models.Group, { through: "users_groups" });
+    User.belongsToMany(models.Group, { through: "Users_Groups" });
   };
 
   // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database
