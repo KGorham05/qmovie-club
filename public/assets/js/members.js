@@ -40,7 +40,9 @@ $(document).ready(function() {
         window.location.replace(`/group/${data.GroupId}`);
         // If there's an error, handle it by throwing up a bootstrap alert
       })
-      .catch(handleLoginErr);
+      .catch((err) => {
+        console.log(err);
+      });
     // Send a post request with the data from the form to the /groups route
   });
 

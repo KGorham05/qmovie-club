@@ -89,24 +89,25 @@ module.exports = function(app) {
       isPrivate: req.body.isPrivate,
       adminUserId: req.body.adminUserId,
     }).then(function(dbGroup) {
-      dbGroup
-        .addUser(req.body.adminUserId)
-        .then(function() {
-          db.Board.create({
-            GroupId: dbGroup.id,
-            nextShowing: req.body.nextShowing,
-            currentTheme: req.body.firstTheme,
-            timeZone: req.body.timeZone,
-            showTime: req.body.showTime,
+      dbGroup.addUser(req.body.adminUserId).then(function(dbUser) {
+        db.Board.create({
+          GroupId: dbGroup.id,
+          nextShowing: req.body.nextShowing,
+          currentTheme: req.body.firstTheme,
+          timeZone: req.body.timeZone,
+          showTime: req.body.showTime,
+        })
+          .then((dbBoard) => {
+            console.log("***");
+            console.log(dbBoard);
+            console.log("***");
+            // Send the group data to front end
+            res.status(201).json(dbBoard);
+          })
+          .catch(function(err) {
+            res.status(401).json(err);
           });
-        })
-        .then((dbData) => {
-          // Send the group data to front end
-          res.status(201).send(dbData);
-        })
-        .catch(function(err) {
-          res.status(401).json(err);
-        });
+      });
     });
   });
 
