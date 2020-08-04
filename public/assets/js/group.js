@@ -5,14 +5,15 @@ $(document).ready(function() {
   const groupId = pathname.split("/")[2];
   const movieRow = $("#movie-card-row");
   let currentUser = null;
+  let currentUserNumVotes = null;
   let currentUserIsAdmin = false;
   let adminUserId = null;
   let movieAlreadySaved = false;
   let currentBoardId = null;
   let currentMovieId = null;
-
+  let currentBoardMoviesData = []
   // update marquee with group data
-  const updateMarquee = groupData => {
+  const updateMarquee = (groupData) => {
     console.log("Updating Marquee");
     // Save references to components to update as variables
     const groupName = $("#group-name");
@@ -31,12 +32,12 @@ $(document).ready(function() {
     showDate.text(groupData.Boards[0].nextShowing);
     // showTime.text(groupData.Boards[0].showTime).toUpperCase();
     console.log("Getting movie data");
-    $.ajax({
-      method: "Get",
-      url: "/api/group/" + currentBoardId,
-    }).then((movieSuggestionsData) => {
-      console.log(movieSuggestionsData);
-    });
+    // $.ajax({
+    //   method: "Get",
+    //   url: "/api/group/" + currentBoardId,
+    // }).then((movieSuggestionsData) => {
+    //   console.log(movieSuggestionsData);
+    // });
   };
 
   const addMovieToBoard = (movieId, boardId) => {
@@ -56,21 +57,28 @@ $(document).ready(function() {
     });
   };
 
-  const buildMovieCards = movies => {
+  const updateVoteBoard = (movies) => {
+    movies.map(movie => {
+      const h5 = $("<h5>")
+      h5.text(movie.title + ": " + movie.Boards_Movies.numVotes)
+      $("#vote-display").append(h5)
+    })
+  };
+
+  const buildMovieCards = (movies) => {
     movieRow.empty();
     movies.map((movie) => {
-      console.log(movie);
       // store all the data from the db as a variable
       const title = movie.title;
       const image = movie.image;
-      const synopsis = movie.synopsis;;
+      const synopsis = movie.synopsis;
       const stream = movie.streamingService;
       const year = movie.releaseYear;
       const genre = movie.genre;
       const tomatoes = movie.tomatoes;
       const imdbRating = movie.imdbRating;
       const id = movie.id;
-      const numVotes = movie.Boards_Movies.numVotes ;
+      const numVotes = movie.Boards_Movies.numVotes;
       // Build the html components with the data from the db
       //  the column
       const column = $("<div>").addClass("col-md-3");
@@ -104,7 +112,6 @@ $(document).ready(function() {
         .text("Click to Vote");
       voteBtn.attr("data-id", id);
       voteBtn.attr("data-votes", numVotes);
-      
 
       // add the elements to the page
       cardBody
@@ -126,7 +133,9 @@ $(document).ready(function() {
       method: "GET",
       url: "/api/group/movies/" + currentBoardId,
     }).then((movieSuggestionsData) => {
-      buildMovieCards(movieSuggestionsData.Movies);
+      currentBoardMoviesData = movieSuggestionsData.Movies;
+      buildMovieCards(currentBoardMoviesData);
+      updateVoteBoard(currentBoardMoviesData);
     });
   };
 
@@ -137,61 +146,60 @@ $(document).ready(function() {
       data: {
         votes: votes,
         movieId: id,
-        boardId: currentBoardId
-      }
-    }).then(res => {
-      console.log(res)
-    })
-  }
+        boardId: currentBoardId,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
 
   // On page load, get info about the current user
-  $.get("/api/user")
-    .then(function(userData) {
-      currentUser = userData;
-    })
-    .then(function() {
-      // Get group data
-      $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
-        adminUserId = groupData.adminUserId;
-        // Check if the group is private
-        console.log(groupData);
-        // save the board ID as a variable for adding movies
-        currentBoardId = groupData.Boards[0].id;
+  // TODO -> Combine these into 1 API Call
+  $.get("/api/user").then(function(userData) {
+    currentUser = userData;
+    console.log(userData);
+    // Get group data
+    $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
+      adminUserId = groupData.adminUserId;
+      // Check if the group is private
+      console.log(groupData);
+      // save the board ID as a variable for adding movies
+      currentBoardId = groupData.Boards[0].id;
 
-        if (groupData.isPrivate) {
-          console.log("This is a private group");
-          // check if the user belongs to the group
-          let userIsInGroup = false;
-          for (let i = 0; i < groupData.Users.length; i++) {
-            if (groupData.Users[i].id === currentUser.id) {
-              userIsInGroup = true;
-            }
+      if (groupData.isPrivate) {
+        console.log("This is a private group");
+        // check if the user belongs to the group
+        let userIsInGroup = false;
+        for (let i = 0; i < groupData.Users.length; i++) {
+          if (groupData.Users[i].id === currentUser.id) {
+            userIsInGroup = true;
           }
-          if (userIsInGroup) {
-            // check if they are the admin
-            if (currentUser.id === adminUserId) {
-              currentUserIsAdmin = true;
-              console.log("This is the admin user");
-            }
-            // if they are in the group, update the dom with the group data
-            updateMarquee(groupData);
-            populateMovieData();
-          } else {
-            window.location.href = "/members";
-          }
-        } else {
+        }
+        if (userIsInGroup) {
           // check if they are the admin
           if (currentUser.id === adminUserId) {
             currentUserIsAdmin = true;
             console.log("This is the admin user");
           }
-          // It's a public group, so load in the rest of the data
-          console.log("this is a public group");
+          // if they are in the group, update the dom with the group data
           updateMarquee(groupData);
           populateMovieData();
+        } else {
+          window.location.href = "/members";
         }
-      });
+      } else {
+        // check if they are the admin
+        if (currentUser.id === adminUserId) {
+          currentUserIsAdmin = true;
+          console.log("This is the admin user");
+        }
+        // It's a public group, so load in the rest of the data
+        console.log("this is a public group");
+        updateMarquee(groupData);
+        populateMovieData();
+      }
     });
+  });
 
   // listen for movie add
   $("#submit-movie-suggestion").click(function(e) {
@@ -279,28 +287,23 @@ $(document).ready(function() {
     movieAlreadySaved = false;
   });
 
-  // listen for clicking vote button 
-  movieRow.on('click', ".vote-btn", function() {
+  // listen for clicking vote button
+  movieRow.on("click", ".vote-btn", function() {
     // console.log(this.data("id"))
-    const id = $(this).data("id")
-    let votes = $(this).data("votes")
-    console.log(votes);
+    const id = $(this).data("id");
+    let votes = $(this).data("votes");
     // increment the votes
     votes++;
-    console.log(votes);
     // check if the user has any votes available
     // if yes, update the numVotes on the boards_movies table
     // update the vote button in case it is clicked again
 
-    $(this).data("votes", votes)
+    $(this).data("votes", votes);
     addVote(id, votes);
+    // update the voting scoreboard
     // if not, alert them that they have to wait until tomorrow to vote again
-
     // check all movie votes, update leading film (make this it's own function)
-  })
+  });
   // determine which movie has the most votes
   // set it as leading movie in the db
-
-
-
 });

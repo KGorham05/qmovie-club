@@ -21,7 +21,7 @@ module.exports = function(app) {
   });
 
   // logout
-  app.get("/logout", function(req, res) {
+  app.get("/api/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
@@ -139,10 +139,7 @@ module.exports = function(app) {
         id: req.params.boardId,
       },
       include: {
-        model: db.Movie,
-        through: {
-          attributes: ["numVotes"],
-        },
+        model: db.Movie
       },
     }).then((dbBoard_Movies) => {
       res.json(dbBoard_Movies);
@@ -213,4 +210,5 @@ module.exports = function(app) {
         res.status(500).json(err);
       });
   });
+
 };
