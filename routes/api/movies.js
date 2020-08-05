@@ -14,3 +14,4 @@ router
   .route("/:title")
   .get(moviesController.findByTitle);
 
+module.exports = router;

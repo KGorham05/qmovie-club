@@ -11,4 +11,4 @@ router
   .route("/resetVotes")
   .put(usersController.resetVotes)
 
-
+  module.exports = router;

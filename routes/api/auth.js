@@ -1,34 +1,18 @@
+const router = require("express").Router();
+const authController = require("../../controllers/authController");
 const passport = require("../config/passport");
-const isAuthenticated = require("../config/middleware/isAuthenticated");
+// Routes will match on /api/auth
 
-// login
-app.post("/api/login", passport.authenticate(["local", "google"]), function(
-  req,
-  res
-) {
-  // Sending back a password, even a hashed password, isn't a good idea
-  res.json({
-    email: req.user.email,
-    id: req.user.id,
-  });
-});
+router
+  .route("/signup")
+  .post(authController.signUp)
 
-// logout
-app.get("/api/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
-});
+router
+  .route("/login", passport.authenticate(["local", "google"]))
+  .post(authController.login)
 
-// sign up
-app.post("/api/signup", function(req, res) {
-  db.User.create({
-    email: req.body.email,
-    password: req.body.password,
-  })
-    .then(function() {
-      res.redirect(307, "/api/login");
-    })
-    .catch(function(err) {
-      res.status(401).json(err);
-    });
-});
+router
+  .route("/logout")
+  .get(authController.logout)
+
+module.exports = router;

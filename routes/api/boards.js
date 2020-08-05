@@ -6,7 +6,7 @@ const boardsController = require("../../controllers/boardsController");
 // Route for associating a movie with a board
 router
   .route("/addMovie")
-  .post(boardsController.movie)
+  .post(boardsController.addMovie)
 
 // Route for getting a board & associated data by Id
 router
