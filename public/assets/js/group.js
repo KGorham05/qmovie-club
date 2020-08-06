@@ -31,19 +31,12 @@ $(document).ready(function() {
     showDay.text(moment(groupData.Boards[0].nextShowing).format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
     // showTime.text(groupData.Boards[0].showTime).toUpperCase();
-    console.log("Getting movie data");
-    // $.ajax({
-    //   method: "Get",
-    //   url: "/api/group/" + currentBoardId,
-    // }).then((movieSuggestionsData) => {
-    //   console.log(movieSuggestionsData);
-    // });
   };
 
   const addMovieToBoard = (movieId, boardId) => {
     $.ajax({
       method: "POST",
-      url: "/api/boards_movies",
+      url: "/api/boards/addMovie",
       data: {
         MovieId: movieId,
         BoardId: boardId,
@@ -131,8 +124,9 @@ $(document).ready(function() {
     console.log("Getting movie data");
     $.ajax({
       method: "GET",
-      url: "/api/group/movies/" + currentBoardId,
+      url: "/api/boards/" + currentBoardId,
     }).then((movieSuggestionsData) => {
+      console.log(movieSuggestionsData)
       currentBoardMoviesData = movieSuggestionsData.Movies;
       buildMovieCards(currentBoardMoviesData);
       updateVoteBoard(currentBoardMoviesData);
@@ -142,7 +136,7 @@ $(document).ready(function() {
   const addVote = (id, votes) => {
     $.ajax({
       method: "PUT",
-      url: "/api/boards_movies/",
+      url: "/api/movies/addVote",
       data: {
         votes: votes,
         movieId: id,
@@ -155,11 +149,11 @@ $(document).ready(function() {
 
   // On page load, get info about the current user
   // TODO -> Combine these into 1 API Call
-  $.get("/api/user").then(function(userData) {
+  $.get("/api/users").then(function(userData) {
     currentUser = userData;
     console.log(userData);
     // Get group data
-    $.get(`/api/users_groups/${groupId}`).then(function(groupData) {
+    $.get(`/api/groups/${groupId}`).then(function(groupData) {
       adminUserId = groupData.adminUserId;
       // Check if the group is private
       console.log(groupData);
@@ -215,7 +209,7 @@ $(document).ready(function() {
 
     // CHECK IF THE MOVIE IS IN THE DB
     $.ajax({
-      url: "/api/movie/" + movie,
+      url: "/api/movies/" + movie,
       method: "GET",
     }).then(function(response) {
       console.log(response);
@@ -265,7 +259,7 @@ $(document).ready(function() {
           // Upload the movie to the DB
           $.ajax({
             method: "POST",
-            url: "/api/movie",
+            url: "/api/movies",
             data: newMovie,
           }).then((response) => {
             console.log(response);
