@@ -1,17 +1,16 @@
 $(document).ready(function() {
   let currentUser = null;
   // Add user's name or email to page
-  $.get("/api/user").then(function(data) {
-    console.log(data);
-    currentUser = data;
-    data.email
-      ? $("#member-name").text(data.email)
-      : $("#member-name").text(`${data.firstName} ${data.lastName}`);
+  $.get("/api/users").then(function(dbUser) {
+    console.log(dbUser);
+    currentUser = dbUser;
+    dbUser.email
+      ? $("#member-name").text(dbUser.email)
+      : $("#member-name").text(`${dbUser.firstName} ${dbUser.lastName}`);
   });
 
   // initialize the date picker
   $( "#datepicker" ).datepicker();
-
 
   // Event Listeners
 
