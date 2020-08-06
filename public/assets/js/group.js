@@ -15,6 +15,7 @@ $(document).ready(function() {
   // update marquee with group data
   const updateMarquee = (groupData) => {
     console.log("Updating Marquee");
+    console.log(groupData.Boards[0].nextShowing)
     // Save references to components to update as variables
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
@@ -28,7 +29,7 @@ $(document).ready(function() {
     groupName.text(groupData.name);
     currentTheme.text(groupData.Boards[0].currentTheme);
     // upcomingMovie.text(groupData.Boards[0].leadingFilm); // not added yet
-    showDay.text(moment(groupData.Boards[0].nextShowing).format("dddd") + ",");
+    showDay.text(moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
     // showTime.text(groupData.Boards[0].showTime).toUpperCase();
   };
