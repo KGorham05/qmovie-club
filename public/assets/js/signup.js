@@ -23,7 +23,7 @@ $(document).ready(function () {
    * Otherwise we log any errors
    */
   function signUpUser (email, password) {
-    $.post("/api/signup", {
+    $.post("/api/auth/signup", {
       email,
       password
     }).
@@ -35,7 +35,8 @@ $(document).ready(function () {
   }
 
   function handleLoginErr (err) {
-    $("#alert .msg").text(err.responseJSON);
+    $("#alert .msg").text(err);
+    console.log(err.responseText);
     $("#alert").fadeIn(500);
   }
 });

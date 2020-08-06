@@ -19,7 +19,7 @@ module.exports = {
   // Find movie by title
   findByTitle: function(req, res) {
     db.Movie
-      .findOne({where: {title: req.params.title})
+      .findOne({where: {title: req.params.title}})
       .then(dbMovie => res.json(dbMovie))
       .catch(err => res.status(404).json(err));
   },

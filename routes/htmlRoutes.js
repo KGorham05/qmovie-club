@@ -14,6 +14,9 @@ router.get("/", function(req, res) {
 
 router.get("/login", function(req, res) {
   // If the user already has an account send them to the members page
+  console.log("hit HTML login route")
+  console.log(req)
+  console.log(req.user)
   if (req.user) {
     res.redirect("/members");
   } else {
