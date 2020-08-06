@@ -4,6 +4,7 @@ var router = require("express").Router();
 const isAuthenticated = require("../config/middleware/isAuthenticated");
 
 router.get("/", function(req, res) {
+  console.log("Index route")
   // If the user already has an account send them to the members page
   if (req.user) {
     res.redirect("/members");
@@ -13,10 +14,9 @@ router.get("/", function(req, res) {
 });
 
 router.get("/login", function(req, res) {
-  // If the user already has an account send them to the members page
-  console.log("hit HTML login route")
-  console.log(req)
+  console.log("Hitting login route")
   console.log(req.user)
+  // If the user already has an account send them to the members page
   if (req.user) {
     res.redirect("/members");
   } else {
@@ -63,7 +63,7 @@ router.get("/about", (req, res) => {
 router.get("/group/:id", isAuthenticated, function(req, res) {
   // TO DO
   // Check if the user trying to access this route belongs to this group
-  // currently performing this check on the front end
+  // currently performing this check on the front end, could be hacked
   // if not, redirect them to the /members route
   res.sendFile(path.join(__dirname, "../public/group.html"));
   // if the are, show them that group's page

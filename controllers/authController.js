@@ -2,11 +2,11 @@ const db = require("../models");
 
 module.exports = {
 
-  signUp: function(req, res) {
+  signUp: function(req, res, next) {
     console.log("Hitting signup route")
     db.User
       .create(req.body)
-      .then(dbUser => res.status(307).redirect("/login"))
+      .then(dbUser => next())
       .catch(err => res.status(401).json(err))
   },
 
@@ -20,3 +20,4 @@ module.exports = {
   }
 
 }
+
