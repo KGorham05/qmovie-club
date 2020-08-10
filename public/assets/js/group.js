@@ -56,9 +56,32 @@ $(document).ready(function() {
     movies.map(movie => {
       const h5 = $("<h5>")
       h5.text(movie.title + ": " + movie.Boards_Movies.numVotes)
+      console.log(movie.Boards_Movies.MovieId)
+      h5.attr('data-id', movie.Boards_Movies.MovieId)
       $("#vote-display").append(h5)
     })
   };
+
+  const addVoteToBoard = id => {
+    console.log(currentBoardMoviesData)
+    let movieToUpdateId = null;
+    // update this to use .filter
+    for (let i = 0; i < currentBoardMoviesData.length; i++) {
+      if (currentBoardMoviesData[i].id === id) {
+        console.log("Match Found")
+        movieToUpdateId = currentBoardMoviesData[i].id
+      }
+    }
+    let oldString = $('[data-id="' + movieToUpdateId + '"]').text()
+    console.log(oldString);
+    let numb = oldString.match(/\d/g).join("");
+    parseInt(numb);
+    numb++;
+    
+
+
+
+  }
 
   const buildMovieCards = (movies) => {
     movieRow.empty();
@@ -148,6 +171,7 @@ $(document).ready(function() {
     }).then((res) => {
       console.log(res);
       if (res.numVotes === 0) alert("Out of votes! Wait until tomorrow to vote again!")
+      else addVoteToBoard(id);
     });
   };
 
