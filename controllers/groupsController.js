@@ -26,10 +26,11 @@ module.exports = {
   },
   // Find group data by Id
   findById: function(req, res) {
+    console.log("Getting Group Data")
     db.Group
       .findOne({
         where: { id: req.params.id },
-        include: [db.User, { model: db.Board, where: { isActive: true } }],
+        include: [{model: db.User, attributes: ['id']}, { model: db.Board, where: { isActive: true } }],
       })
       .then((dbData) => res.json(dbData))
       .catch((err) => res.status().json(err));

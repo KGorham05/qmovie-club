@@ -4,12 +4,13 @@ $(document).ready(function() {
   const pathname = window.location.pathname;
   const groupId = pathname.split("/")[2];
   const movieRow = $("#movie-card-row");
+  let currentUserIsAdmin = false;
+  let movieAlreadySaved = false;
   let currentUser = null;
   let currentUserNumVotes = null;
-  let currentUserIsAdmin = false;
   let adminUserId = null;
-  let movieAlreadySaved = false;
   let currentBoardId = null;
+  let currentGroupId = null;
   let currentMovieId = null;
   let currentBoardMoviesData = []
   // update marquee with group data
@@ -142,24 +143,27 @@ $(document).ready(function() {
         votes: votes,
         movieId: id,
         boardId: currentBoardId,
+        groupId: currentGroupId
       },
     }).then((res) => {
       console.log(res);
+      if (res.numVotes === 0) alert("Out of votes! Wait until tomorrow to vote again!")
     });
   };
 
   // On page load, get info about the current user
-  // TODO -> Combine these into 1 API Call
   $.get("/api/users").then(function(userData) {
     currentUser = userData;
     console.log(userData);
     // Get group data
     $.get(`/api/groups/${groupId}`).then(function(groupData) {
       adminUserId = groupData.adminUserId;
+
       // Check if the group is private
       console.log(groupData);
       // save the board ID as a variable for adding movies
       currentBoardId = groupData.Boards[0].id;
+      currentGroupId = groupData.Boards[0].GroupId;
 
       if (groupData.isPrivate) {
         console.log("This is a private group");
