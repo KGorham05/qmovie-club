@@ -2,7 +2,8 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const express = require("express");
-const morgan = require("morgan");
+// Use morgan when debugging routes
+// const morgan = require("morgan");
 const session = require("express-session");
 const passport = require("./config/passport");
 const routes = require("./routes");

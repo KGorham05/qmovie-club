@@ -54,33 +54,24 @@ $(document).ready(function() {
 
   const updateVoteBoard = (movies) => {
     movies.map(movie => {
-      const h5 = $("<h5>")
-      h5.text(movie.title + ": " + movie.Boards_Movies.numVotes)
-      console.log(movie.Boards_Movies.MovieId)
-      h5.attr('data-id', movie.Boards_Movies.MovieId)
-      $("#vote-display").append(h5)
+      const h5 = $("<h5>");
+      const span = $("<span>");
+      h5.text(movie.title + ": ");
+      span.attr('data-score-id', movie.Boards_Movies.MovieId);
+      span.attr('data-numVotes', movie.Boards_Movies.numVotes);
+      span.text(movie.Boards_Movies.numVotes);
+      h5.append(span);
+      $("#vote-display").append(h5);
     })
   };
 
   const addVoteToBoard = id => {
-    console.log(currentBoardMoviesData)
-    let movieToUpdateId = null;
-    // update this to use .filter
-    for (let i = 0; i < currentBoardMoviesData.length; i++) {
-      if (currentBoardMoviesData[i].id === id) {
-        console.log("Match Found")
-        movieToUpdateId = currentBoardMoviesData[i].id
-      }
-    }
-    let oldString = $('[data-id="' + movieToUpdateId + '"]').text()
-    console.log(oldString);
-    let numb = oldString.match(/\d/g).join("");
-    parseInt(numb);
-    numb++;
-    
-
-
-
+    const movieToUpdate = currentBoardMoviesData.find(movie => movie.id === id);
+    let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]')
+    let existingVotes = parseInt(spanToEdit[0].dataset.numvotes);
+    existingVotes++
+    spanToEdit.text(existingVotes);
+    spanToEdit.attr('data-numVotes', existingVotes);
   }
 
   const buildMovieCards = (movies) => {
