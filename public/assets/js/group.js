@@ -90,7 +90,7 @@ $(document).ready(function() {
       const numVotes = movie.Boards_Movies.numVotes;
       // Build the html components with the data from the db
       //  the column
-      const column = $("<div>").addClass("col-md-3");
+      const column = $("<div>").addClass("col-xl-3 col-lg-4 col-md-6");
       //  the div.card
       const card = $("<div>").addClass("card shadow mb-3 movie");
       //  the img tag

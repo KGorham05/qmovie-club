@@ -17,7 +17,7 @@ const forceSync = false;
 // })
 const app = express();
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(

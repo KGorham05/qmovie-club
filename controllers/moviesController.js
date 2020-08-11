@@ -11,7 +11,6 @@ module.exports = {
   },
   // Update a movie's numVotes
   addVote: function(req, res) {
-    console.log(req.user)
     // check if the user has any votes for this boards by querying the users_groups table
     db.Users_Groups.findOne({
       where: {
@@ -21,13 +20,11 @@ module.exports = {
     }).then(dbUser => {
       let usersVotes = dbUser.numVotes;
       let movieIdToUpdate = req.body.movieId
-      console.log(usersVotes);
       if (usersVotes > 0) {
         db.Boards_Movies
         .update({numVotes: req.body.votes}, {where: {MovieId: movieIdToUpdate, BoardId: req.body.boardId}})
         .then(dbMovie => {
-          usersVotes--;
-          console.log(usersVotes);
+          usersVotes--; 
           db.Users_Groups.update(
             {numVotes: usersVotes}, 
             {where: {
