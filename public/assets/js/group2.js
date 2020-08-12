@@ -31,4 +31,7 @@ $(document).ready(function() {
       // if so, update the leadingFilm in the DB
       // update the marquee's upcoming film display
     // Update the scoreboard display
+
+  // Check if the activeBoard is past showtime
+    // if it is, set isActive to false and look for the nextBoard (may have to add a boolean to this model)
 })

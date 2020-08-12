@@ -79,12 +79,10 @@ $(document).ready(function() {
     spanToEdit.attr('data-numVotes', existingVotes);
     // check if it now has more votes then the MovieWithMostVotes
     if (existingVotes > highestNumVotes) {
-      console.log("new leading film")
+      // If it does, update the marquee
       const upcomingMovie = $("#upcoming-movie");
       upcomingMovie.text(movieToUpdate.title);
-    }
-    // If it does, update the marquee
-
+    };
   };
 
   const buildMovieCards = (movies) => {
