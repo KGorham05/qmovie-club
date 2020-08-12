@@ -12,8 +12,11 @@ $(document).ready(function() {
   let currentGroupId = null;
   let currentMovieId = null;
   let currentBoardMoviesData = []
+  let movieWithMostVotes = null;
   // update marquee with group data
   const updateMarquee = (groupData) => {
+  
+    determineLeadingFilm(groupData.Boards[0].Movies)
     // Save references to components to update as variables
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
@@ -23,10 +26,11 @@ $(document).ready(function() {
     const showDate = $("#show-date");
     const timeZone = $("#time-zone");
 
+
     timeZone.text(groupData.Boards[0].timeZone);
     groupName.text(groupData.name);
     currentTheme.text(groupData.Boards[0].currentTheme);
-    // upcomingMovie.text(groupData.Boards[0].leadingFilm); // not added yet
+    upcomingMovie.text(movieWithMostVotes); // not added yet
     showDay.text(moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
     showTime.text(groupData.Boards[0].showTime);
@@ -51,6 +55,7 @@ $(document).ready(function() {
 
   const updateVoteBoard = (movies) => {
     $("#vote-display").empty();
+    $("#vote-display").append($('<h4 class="card-title">Voting Results</h4>'));
     movies.map(movie => {
       const h5 = $("<h5>");
       const span = $("<span>");
@@ -145,6 +150,21 @@ $(document).ready(function() {
     });
   };
 
+  const determineLeadingFilm = movieData => {
+    let highestVoteCount = 0;
+    for (let i = 0; i < movieData.length; i++) {
+      const thisMoviesNumVotes = movieData[i].Boards_Movies.numVotes;
+      if (thisMoviesNumVotes > highestVoteCount) {
+        highestVoteCount = thisMoviesNumVotes;
+        movieWithMostVotes = movieData[i].title;
+      }
+    }
+  };
+
+  // const updateLeadingFilmInDB = title => {
+    
+  // }
+
   const addVote = (id, votes) => {
     $.ajax({
       method: "PUT",
@@ -191,8 +211,8 @@ $(document).ready(function() {
             console.log("This is the admin user");
           }
           // if they are in the group, update the dom with the group data
-          updateMarquee(groupData);
           populateMovieData();
+          updateMarquee(groupData);
         } else {
           window.location.href = "/members";
         }
@@ -204,8 +224,8 @@ $(document).ready(function() {
         }
         // It's a public group, so load in the rest of the data
         console.log("this is a public group");
-        updateMarquee(groupData);
         populateMovieData();
+        updateMarquee(groupData);
       }
     });
   });

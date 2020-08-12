@@ -30,7 +30,7 @@ module.exports = {
     db.Group
       .findOne({
         where: { id: req.params.id },
-        include: [{model: db.User, attributes: ['id']}, { model: db.Board, where: { isActive: true } }],
+        include: [{model: db.User, attributes: ['id']}, { model: db.Board, where: { isActive: true }, include: {model: db.Movie} }],
       })
       .then((dbData) => res.json(dbData))
       .catch((err) => res.status().json(err));
