@@ -53,6 +53,7 @@ $(document).ready(function() {
   };
 
   const updateVoteBoard = (movies) => {
+    $("#vote-display").empty();
     movies.map(movie => {
       const h5 = $("<h5>");
       const span = $("<span>");
@@ -67,9 +68,9 @@ $(document).ready(function() {
 
   const addVoteToBoard = id => {
     const movieToUpdate = currentBoardMoviesData.find(movie => movie.id === id);
-    let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]')
+    let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]');
     let existingVotes = parseInt(spanToEdit[0].dataset.numvotes);
-    existingVotes++
+    existingVotes++;
     spanToEdit.text(existingVotes);
     spanToEdit.attr('data-numVotes', existingVotes);
   }
