@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  console.log("page loaded");
   // Load the groups info based of the current URL
   const pathname = window.location.pathname;
   const groupId = pathname.split("/")[2];
@@ -15,8 +14,6 @@ $(document).ready(function() {
   let currentBoardMoviesData = []
   // update marquee with group data
   const updateMarquee = (groupData) => {
-    console.log("Updating Marquee");
-    console.log(groupData.Boards[0].nextShowing)
     // Save references to components to update as variables
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
@@ -32,7 +29,7 @@ $(document).ready(function() {
     // upcomingMovie.text(groupData.Boards[0].leadingFilm); // not added yet
     showDay.text(moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
-    // showTime.text(groupData.Boards[0].showTime).toUpperCase();
+    showTime.text(groupData.Boards[0].showTime);
   };
 
   const addMovieToBoard = (movieId, boardId) => {
@@ -73,7 +70,7 @@ $(document).ready(function() {
     existingVotes++;
     spanToEdit.text(existingVotes);
     spanToEdit.attr('data-numVotes', existingVotes);
-  }
+  };
 
   const buildMovieCards = (movies) => {
     movieRow.empty();
@@ -138,12 +135,10 @@ $(document).ready(function() {
   };
 
   const populateMovieData = () => {
-    console.log("Getting movie data");
     $.ajax({
       method: "GET",
       url: "/api/boards/" + currentBoardId,
     }).then((movieSuggestionsData) => {
-      console.log(movieSuggestionsData)
       currentBoardMoviesData = movieSuggestionsData.Movies;
       buildMovieCards(currentBoardMoviesData);
       updateVoteBoard(currentBoardMoviesData);
@@ -170,7 +165,6 @@ $(document).ready(function() {
   // On page load, get info about the current user
   $.get("/api/users").then(function(userData) {
     currentUser = userData;
-    console.log(userData);
     // Get group data
     $.get(`/api/groups/${groupId}`).then(function(groupData) {
       adminUserId = groupData.adminUserId;
@@ -320,5 +314,9 @@ $(document).ready(function() {
     // check all movie votes, update leading film (make this it's own function)
   });
   // determine which movie has the most votes
+  // query boards_movies
+  // loop over them, see which one has the most votes
+  // set the one with the most votes as the leading film on the board 
+  
   // set it as leading movie in the db
 });
