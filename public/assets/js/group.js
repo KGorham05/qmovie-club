@@ -13,6 +13,7 @@ $(document).ready(function() {
   let currentMovieId = null;
   let currentBoardMoviesData = []
   let movieWithMostVotes = null;
+  let highestNumVotes = 0;
   // update marquee with group data
   const updateMarquee = (groupData) => {
   
@@ -30,7 +31,7 @@ $(document).ready(function() {
     timeZone.text(groupData.Boards[0].timeZone);
     groupName.text(groupData.name);
     currentTheme.text(groupData.Boards[0].currentTheme);
-    upcomingMovie.text(movieWithMostVotes); // not added yet
+    upcomingMovie.text(movieWithMostVotes); 
     showDay.text(moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ",");
     showDate.text(groupData.Boards[0].nextShowing);
     showTime.text(groupData.Boards[0].showTime);
@@ -70,11 +71,20 @@ $(document).ready(function() {
 
   const addVoteToBoard = id => {
     const movieToUpdate = currentBoardMoviesData.find(movie => movie.id === id);
+    console.log(movieToUpdate);
     let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]');
     let existingVotes = parseInt(spanToEdit[0].dataset.numvotes);
     existingVotes++;
     spanToEdit.text(existingVotes);
     spanToEdit.attr('data-numVotes', existingVotes);
+    // check if it now has more votes then the MovieWithMostVotes
+    if (existingVotes > highestNumVotes) {
+      console.log("new leading film")
+      const upcomingMovie = $("#upcoming-movie");
+      upcomingMovie.text(movieToUpdate.title);
+    }
+    // If it does, update the marquee
+
   };
 
   const buildMovieCards = (movies) => {
@@ -151,11 +161,10 @@ $(document).ready(function() {
   };
 
   const determineLeadingFilm = movieData => {
-    let highestVoteCount = 0;
     for (let i = 0; i < movieData.length; i++) {
       const thisMoviesNumVotes = movieData[i].Boards_Movies.numVotes;
-      if (thisMoviesNumVotes > highestVoteCount) {
-        highestVoteCount = thisMoviesNumVotes;
+      if (thisMoviesNumVotes > highestNumVotes) {
+        highestNumVotes = thisMoviesNumVotes;
         movieWithMostVotes = movieData[i].title;
       }
     }
