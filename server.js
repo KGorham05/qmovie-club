@@ -16,11 +16,14 @@ const io = require('socket.io')(server)
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
   socket.on('chat message', (msg) => {
     console.log('message: ' + msg);
+    io.emit('chat message', msg);
   });
 
 });
@@ -35,10 +38,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Requiring our routes
-// require("./routes/html-routes.js")(app);
-// require("./routes/api-routes.js")(app);
-// TODO -> Move routes to their own controller, add express router
 app.use(routes);
 
 // Syncing our database and logging a message to the user upon success
