@@ -11,4 +11,8 @@ router
   .route("/resetVotes")
   .put(usersController.resetVotes)
 
+router
+  .route("/groups")
+  .get(usersController.findUsersGroups)
+
   module.exports = router;
