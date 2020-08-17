@@ -10,22 +10,41 @@ const db = require("./models");
 const PORT = process.env.PORT || 8080;
 const app = express();
 const forceSync = false;
-const server = require('http').createServer(app);
+const server = require("http").createServer(app);
 
-const io = require('socket.io')(server)
+const io = require("socket.io")(server);
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+
+//   socket.on('chat message', (msg) => {
+//     console.log('message: ' + msg);
+//     io.emit('chat message', msg);
+//   });
+
+// });
+
+io.on("connection", function(socket) {
+  console.log("a user connected");
+
+  socket.on("create", function(room) {
+    console.log(`Joined room: ${room}`)
+    socket.join(room);
+
+    socket.on('chat message', (msg) => {
+      console.log('message: ' + msg);
+      io.to(room).emit('chat message', msg);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("user disconnected");
+    });
+
   });
-
-  socket.on('chat message', (msg) => {
-    console.log('message: ' + msg);
-    io.emit('chat message', msg);
-  });
-
 });
 
 app.use(express.urlencoded({ extended: true }));
