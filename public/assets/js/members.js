@@ -4,13 +4,19 @@ $(document).ready(function() {
   $("#datepicker").datepicker();
 
   function fillYourGroupsTable (groupsData) {
-    groupsData.forEach(group => {
-      
-    })
     // loop over each group the user belogs to
-    // create html elements for the table row
-    // add the text from the data to the html elements
-    // create a button (link) to that group's page
+    groupsData.forEach(group => {
+      console.log(group);
+      // create html elements for the table row
+      // add the text from the data to the html elements
+      const tr = $("<tr>");
+      const gName = $("<td>").text(group.name);
+      const gDescrip = $("<td>").text(group.description);
+      // create a button (link) to that group's page
+      const gLink = $(`<td class='view-board-link'><a href='/group/${group.id}'>View Board</a></td>`)
+      tr.append([gName, gDescrip, gLink]);
+      $("#my-groups-table-body").append(tr);
+    })
     // append the elements to the row
     // append the row to the page
   }
