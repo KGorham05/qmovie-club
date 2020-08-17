@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="shortcut icon" type="image/jpg" href="./assets/icons/film.ico">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link href="./assets/stylesheets/members.css" rel="stylesheet">
+  <link rel="shortcut icon" type="image/jpg" href="./assets/icons/film.ico">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link href="./assets/stylesheets/members.css" rel="stylesheet">
   <title>Quarantine Movie Club</title>
 
 </head>
@@ -53,8 +53,40 @@
       </div>
     </div>
 
-    <!-- Join Public Group Table -->
+    <!-- Browse Public Groups Button (opens modal) -->
     <div class="row mt-5">
+      <div class="col-md-12">
+        <h1><button id="open-browse-public-groups-modal">Browse</button> public groups!</h1>
+      </div>
+    </div>
+
+    <!-- My Groups Table -->
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h1>Your Groups</h1>
+        <table class="table">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">Group Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Number of Members</th>
+              <th scope="col">View Group Page</th>
+            </tr>
+          </thead>
+          <tbody id="my-groups-table-body">
+            <!-- <tr>
+              <th scope="row">Horror Movie Club</th>
+              <td>We love scary movies!</td>
+              <td>20</td>
+              <td><button>View Board</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Join Public Group Table (Move this to a modal) -->
+    <!-- <div class="row mt-5">
       <div class="col-md-12">
         <h1>Join a Public Group</h1>
         <table class="table">
@@ -66,23 +98,17 @@
               <th scope="col">Click to Join!</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="public-groups">
             <tr>
               <th scope="row">Horror Movie Club</th>
               <td>We love scary movies!</td>
               <td>20</td>
               <td><button>Join Group</td>
             </tr>
-            <tr>
-              <th scope="row">Comedy Club</th>
-              <td>Join for a laugh!</td>
-              <td>40</td>
-              <td><button>Join Group</td>
-            </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </div> -->
 
     <!-- End of Main Container -->
   </div>

@@ -45,6 +45,13 @@ $(document).ready(function() {
     // Send a post request with the data from the form to the /groups route
   });
 
-  // For the join private group btn
-  // For the join public group btn
+
 });
+
+// get request for all groups the user belongs to
+  // get number of members that are in that group
+  // generate a link to that groups page
+
+
+// get request for all public groups (do this only on click to speed up page load)
+  // populate publig group list
