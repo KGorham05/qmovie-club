@@ -31,7 +31,6 @@ module.exports = {
         },
         include: db.Group
       }).then(dbUser => {
-        console.log(dbUser)
         res.json(dbUser)
       })
       

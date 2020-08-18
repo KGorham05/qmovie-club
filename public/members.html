@@ -61,7 +61,7 @@
     </div>
 
     <!-- My Groups Table -->
-    <div class="row mt-5">
+    <div class="row mt-5 my-groups">
       <div class="col-md-12">
         <h1>Your Groups</h1>
         <table class="table">
@@ -122,11 +122,11 @@
           <form>
             <div class="form-group">
               <label for="group-name" class="col-form-label">Group Name:</label>
-              <input type="text" class="form-control" id="group-name">
+              <input type="text" class="form-control" id="group-name" maxlength="25">
             </div>
             <div class="form-group">
               <label for="group-description" class="col-form-label">Describe the group for new members:</label>
-              <textarea class="form-control" id="group-description"></textarea>
+              <textarea class="form-control" id="group-description" maxlength="250"></textarea>
             </div>
             <div class="form-group">
               <label for="datepicker">Pick a date for your first showing</label><br>

@@ -4,6 +4,9 @@ $(document).ready(function() {
   $("#datepicker").datepicker();
 
   function fillYourGroupsTable (groupsData) {
+    if (groupsData.length > 0) {
+      $(".my-groups").show();
+    }
     // loop over each group the user belogs to
     groupsData.forEach(group => {
       console.log(group);
@@ -29,6 +32,10 @@ $(document).ready(function() {
       ? $("#member-name").text(dbUser.email)
       : $("#member-name").text(`${dbUser.firstName} ${dbUser.lastName}`);
 
+    // if the user doesn't belong to any groups, hide the Your groups section
+    if (dbUser.Groups.length === 0) {
+      $(".my-groups").hide();
+    }  
     fillYourGroupsTable(dbUser.Groups);
   });
 
