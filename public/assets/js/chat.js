@@ -1,6 +1,8 @@
 const socket = io();
 const randomRoomNumber = Math.floor(Math.random() * 2)
 const room = `room${randomRoomNumber}`
+// get the group ID from the URL
+// use that to create the room #
 
 console.log(randomRoomNumber);
 

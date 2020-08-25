@@ -37,6 +37,17 @@ module.exports = {
       ],
     })
       .then((dbData) => res.json(dbData))
-      .catch((err) => res.status().json(err));
+      .catch((err) => res.status(404).json(err));
   },
+  // Get all Publig Groups
+  findPublicGroups: function(req, res) {
+    db.Group.findAll({
+      where: {
+        isPrivate: 0
+      }
+    })
+      .then(dbGroups => res.json(dbGroups))
+      .catch(err => res.status(200).json(err))
+  }
+
 };

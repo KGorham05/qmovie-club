@@ -5,6 +5,7 @@ const groupsController = require("../../controllers/groupsController");
 router 
   .route("/")
   .post(groupsController.createGroup)
+  .get(groupsController.findPublicGroups)
 
 router
   .route("/:id")
