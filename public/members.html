@@ -162,8 +162,12 @@
             </div>
             <div class="form-group">
               <label>What type of group is this?</label><br>
-              <input type="radio" name="is-private" id="is-private" value="true"> Private</input><br>
-              <input type="radio" name="is-private" id="is-public" value="false"> Public</input>
+              <input type="radio" name="is-private" id="is-private" value="true">Private</input><br>
+              <input type="radio" name="is-private" id="is-public"  value="false">Public</input>
+            </div>
+            <div class="form-group" id="private-key-form-group">
+              <label>Create a password for inviting users to  your private group!</label><br>
+              <input type="text" name="private-group-key" id="private-group-key" maxlength="16" minlength="4" placeholder="4-16 characters">
             </div>
           </form>
         </div>

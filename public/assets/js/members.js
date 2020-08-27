@@ -27,11 +27,56 @@ $(document).ready(function() {
     // append the row to the page
   }
 
-  function joinPublicGroupById(id) {
-    // POST request to a route in the groups controller
-    // set up a method in the controller to handle adding users to a public group
-    console.log("Now we need to add this user to this group");
-    // when they are successfully added, open that group's page
+  function displayPrivateGroupPassword() {
+    $("#private-key-form-group").css("display", "block")
+  }
+
+  function hidePrivateGroupPassword() {
+    $("#private-key-form-group").css("display", "none")
+  }
+
+  function validateGroupForm(formData) {
+    // check for...
+    // Group Name
+    if (!formData.name) {
+      alert("Group name is a required field!")
+      return false;
+    } 
+    // Group Description
+    else if (!formData.description) {
+      alert("Description is a required field!")
+      return false;
+    } 
+    // Date    
+    else if (!formData.nextShowing) {
+      alert("Date of first showing is a required field!")
+      return false;
+    } 
+    // Showtime    
+    else if (!formData.showTime) {
+      alert("Showtime is a required field!")
+      return false;
+    } 
+    // Timezone    
+    else if (!formData.timeZone) {     
+      alert("Timezone is a required field!")
+      return false;
+    } 
+    // Make sure the at least 1 radio button is selected
+    else if (!$('input[name="is-private"]:checked').length) {
+      alert("You must select private or public group!")
+      return false;
+    }
+    // If the group is private
+    else if (formData.isPrivate === "true") {
+      console.log(formData.isPrivate)
+      // Validate they added a password
+      if (!formData.password) {
+        alert("A password is required to create a private group!");
+        return false;
+      } 
+    }
+    return true;
   }
 
   // Load User's data on page load
@@ -57,7 +102,6 @@ $(document).ready(function() {
 
   // Open the browse publig groups modal
   $("#open-public-groups-modal").click(() => {
-
     // if this is the first time we've clicked this button...
     if (!haveQueriedPublicGroups) {
       // flip flag so next time we don't query the DB again
@@ -77,18 +121,31 @@ $(document).ready(function() {
 
   // Create a group
   $("#create-group-btn").click(() => {
+    
+
     // Create an object with data from the form
     const newGroup = {
-      name: $("#group-name").val(),
-      description: $("#group-description").val(),
+      name: $("#group-name").val().trim(),
+      description: $("#group-description").val().trim(),
       isPrivate: $("input[name=is-private]:checked").val(),
+      password: $("#private-group-key").val().trim(),
       adminUserId: currentUser.id,
       nextShowing: $("#datepicker").val(),
-      firstTheme: $("#theme").val(),
-      showTime: $("#show-time").val(),
-      timeZone: $("#time-zone").val(),
+      firstTheme: $("#theme").val().trim(),
+      showTime: $("#show-time").val().trim(),
+      timeZone: $("#time-zone").val().trim(),
     };
     console.log(newGroup);
+
+    // Validate the group has all required data before firing post request
+    if(validateGroupForm(newGroup)) {
+      console.log("All required data has been entered")
+    } else {
+      console.log("Missing a required input")
+      return;
+    };
+     
+
     $.post("/api/groups", newGroup)
       .then(function(data) {
         console.log(data);
@@ -100,6 +157,21 @@ $(document).ready(function() {
       });
     // Send a post request with the data from the form to the /groups route
   });
+
+  // If Private Group is selected, display the password input field
+  $("input[name='is-private'").change(() =>{
+    // If it is a private group
+    if ($("#is-private").is(":checked")) {
+      // display the password field
+      displayPrivateGroupPassword()
+    } else {
+      // hide the password field
+      hidePrivateGroupPassword()
+    }
+  });
+
+  // On page load, hide the password field unless it's clicked
+  hidePrivateGroupPassword();
 });
 
 // get request for all public groups (do this only on click to speed up page load)

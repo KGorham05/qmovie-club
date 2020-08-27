@@ -172,6 +172,11 @@ $(document).ready(function() {
     
   // }
 
+  // Check if the group is a public group
+  // And the user does not belong to the group
+  // Add a "Join Group" Button to the Nav Bar
+  // Don't allow the user to vote or suggest movies unless they join the group
+
   const addVote = (id, votes) => {
     $.ajax({
       method: "PUT",
@@ -340,10 +345,6 @@ $(document).ready(function() {
     // if not, alert them that they have to wait until tomorrow to vote again
     // check all movie votes, update leading film (make this it's own function)
   });
-  // determine which movie has the most votes
-  // query boards_movies
-  // loop over them, see which one has the most votes
-  // set the one with the most votes as the leading film on the board 
-  
-  // set it as leading movie in the db
+
+
 });
