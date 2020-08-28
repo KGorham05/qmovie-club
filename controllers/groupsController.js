@@ -8,6 +8,7 @@ module.exports = {
       description: req.body.description,
       isPrivate: req.body.isPrivate,
       adminUserId: req.body.adminUserId,
+      password: req.body.password,
     }).then((dbGroup) => {
       dbGroup.addUser(req.body.adminUserId).then((dbUser) => {
         db.Board.create({

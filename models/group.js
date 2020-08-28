@@ -17,6 +17,9 @@ module.exports = function(sequelize, DataTypes) {
     adminUserId: {
       type: DataTypes.INTEGER,
     },
+    password: {
+      type: DataTypes.STRING,
+    }
   });
 
   Group.associate = function(models) {

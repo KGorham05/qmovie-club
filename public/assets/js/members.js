@@ -145,7 +145,7 @@ $(document).ready(function() {
       return;
     };
      
-
+    // NEED TO UPDATE THIS ROUTE'S MODEL SO GROUP PASSWORD GETS SAVED IN THE DB
     $.post("/api/groups", newGroup)
       .then(function(data) {
         console.log(data);
