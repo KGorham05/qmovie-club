@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    
+
     <!-- End of Main Container -->
   </div>
 
@@ -95,7 +95,7 @@
           </button>
         </div>
         <div class="modal-body">
-          
+
           <div class="row public-groups">
             <div class="col-md-12">
               <table class="table">
@@ -108,7 +108,7 @@
                 </thead>
                 <tbody id="public-groups-table-body">
                   <!-- Rows added here dynamically -->
-                  
+
                 </tbody>
               </table>
             </div>
@@ -116,6 +116,40 @@
 
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Join Private Group Modal -->
+  <div class="modal fade" id="joinPrivateGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinPrivateGroup"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="joinPrivateGroup">Join A private-group-key Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add Join Group Form here -->
+          <form>
+            <div class="form-group">
+              <!-- Group ID -->
+              <label for="group-id" class="col-form-label">Group ID</label>
+              <input type="text" class="form-control" id="group-id" maxlength="250">
+            </div>
+            <div class="form-group">
+              <!-- Password -->
+              <label for="group-password" class="col-form-label">Group Password</label>
+              <input class="form-control" id="group-password" minlength="4" maxlength="16"></input>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="add-private-group" data-dismiss="modal">Add Group</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
@@ -163,11 +197,12 @@
             <div class="form-group">
               <label>What type of group is this?</label><br>
               <input type="radio" name="is-private" id="is-private" value="true">Private</input><br>
-              <input type="radio" name="is-private" id="is-public"  value="false">Public</input>
+              <input type="radio" name="is-private" id="is-public" value="false">Public</input>
             </div>
             <div class="form-group" id="private-key-form-group">
-              <label>Create a password for inviting users to  your private group!</label><br>
-              <input type="text" name="private-group-key" id="private-group-key" maxlength="16" minlength="4" placeholder="4-16 characters">
+              <label>Create a password for inviting users to your private group!</label><br>
+              <input type="text" name="private-group-key" id="private-group-key" maxlength="16" minlength="4"
+                placeholder="4-16 characters">
             </div>
           </form>
         </div>

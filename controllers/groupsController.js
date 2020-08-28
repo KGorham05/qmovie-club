@@ -44,11 +44,43 @@ module.exports = {
   findPublicGroups: function(req, res) {
     db.Group.findAll({
       where: {
-        isPrivate: 0
-      }
+        isPrivate: 0,
+      },
     })
-      .then(dbGroups => res.json(dbGroups))
-      .catch(err => res.status(200).json(err))
-  }
-
+      .then((dbGroups) => res.json(dbGroups))
+      .catch((err) => res.status(200).json(err));
+  },
+  // Join A Private Group
+  joinPrivateGroup: function(req, res) {
+    console.log(req.user);
+    console.log(req.body);
+    db.Group.findOne({
+      where: {
+        id: req.params.id,
+        password: req.body.password,
+      },
+    })
+      .then((dbGroup) => {
+        console.log("Found the group");
+        if (!dbGroup) {
+          res.json({ error: "incorrect id password combination" });
+        } else {
+          db.Users_Groups.create({
+            GroupId: dbGroup.id,
+            UserId: req.user.id,
+          })
+            .then((dbUsers_Groups) => {
+              res.status(200).json(dbUsers_Groups);
+            })
+            .catch((err) => res.json(err));
+        }
+      })
+      .catch((err) => res.json(err));
+    // db.Users_Groups.create({
+    //   where: {
+    //     id: req.params.id,
+    //     password: req.body.password
+    //   }
+    // })
+  },
 };

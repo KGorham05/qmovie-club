@@ -10,6 +10,8 @@ router
 router
   .route("/:id")
   .get(groupsController.findById)
+  .post(groupsController.joinPrivateGroup)
+
 
 module.exports = router;
   

@@ -1,8 +1,8 @@
 $(document).ready(function() {
-  let currentUser = null;
-  let haveQueriedPublicGroups = false;
   // initialize the date picker
   $("#datepicker").datepicker();
+  let currentUser = null;
+  let haveQueriedPublicGroups = false;
 
   function populateGroupsTable(groupsData, groupName) {
     if (groupsData.length > 0) {
@@ -25,15 +25,15 @@ $(document).ready(function() {
     });
     // append the elements to the row
     // append the row to the page
-  }
+  };
 
   function displayPrivateGroupPassword() {
     $("#private-key-form-group").css("display", "block")
-  }
+  };
 
   function hidePrivateGroupPassword() {
     $("#private-key-form-group").css("display", "none")
-  }
+  };
 
   function validateGroupForm(formData) {
     // check for...
@@ -77,7 +77,7 @@ $(document).ready(function() {
       } 
     }
     return true;
-  }
+  };
 
   // Load User's data on page load
   $.get("/api/users/groups").then(function(dbUser) {
@@ -121,7 +121,6 @@ $(document).ready(function() {
 
   // Create a group
   $("#create-group-btn").click(() => {
-    
 
     // Create an object with data from the form
     const newGroup = {
@@ -168,6 +167,44 @@ $(document).ready(function() {
       // hide the password field
       hidePrivateGroupPassword()
     }
+  });
+
+  // Join Private Group Button
+  $("#join-private-group-btn").click(() => {
+    // display the join group modal
+    $("#joinPrivateGroupModal").modal("show");
+  });
+
+  // Listen for the Add Group Button
+  $("#add-private-group").click(() => {
+    console.log("Add Group Button!");
+
+    const groupToJoin = {
+      groupId:  $("#group-id")      .val().trim(),
+      password: $("#group-password").val().trim(),
+    }
+    // Validate both fields are filled out
+    if (!groupToJoin.groupId || !groupToJoin.password) {
+      // If not, alert they are requried
+      alert("Both fields are required")
+    } else {
+      // Else, create a post request to add the user to a group
+      $.post(`/api/groups/${groupToJoin.groupId}`, groupToJoin)
+        .then((response) => {
+          // If the password/id do NOT match
+          if (response.error) {
+            // alert the user that the ID/Password combination did not match the database
+            alert('Incorrect password or ID combination')
+            // clear the form inputs
+            $("#group-id").val("")
+            $("#group-password").val("")
+          } else {
+            // If the groupId and Password Match
+            // Redirect the user to the group page
+            window.location.replace(`/group/${groupToJoin.groupId}`)
+          };
+        });
+    };
   });
 
   // On page load, hide the password field unless it's clicked
