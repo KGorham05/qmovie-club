@@ -11,8 +11,10 @@ $(document).ready(function() {
   let currentBoardId = null;
   let currentGroupId = null;
   let currentMovieId = null;
-  let currentBoardMoviesData = [];
   let movieWithMostVotes = null;
+  let nextShowing = null;
+  let nextShowtime = null;
+  let currentBoardMoviesData = [];
   let highestNumVotes = 0;
   // update marquee with group data
   const updateMarquee = (groupData) => {
@@ -70,7 +72,9 @@ $(document).ready(function() {
   };
 
   const addVoteToBoard = (id) => {
-    const movieToUpdate = currentBoardMoviesData.find( movie => movie.id === id);
+    const movieToUpdate = currentBoardMoviesData.find(
+      (movie) => movie.id === id
+    );
     console.log(movieToUpdate);
     let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]');
     let existingVotes = parseInt(spanToEdit[0].dataset.numvotes);
@@ -165,7 +169,7 @@ $(document).ready(function() {
       if (thisMoviesNumVotes > highestNumVotes) {
         highestNumVotes = thisMoviesNumVotes;
         movieWithMostVotes = movieData[i].title;
-        updateLeadingFilmInDB(movieWithMostVotes)
+        updateLeadingFilmInDB(movieWithMostVotes);
       }
     }
   };
@@ -178,11 +182,11 @@ $(document).ready(function() {
         title: title,
       },
     }).then((response, error) => {
-      console.log('Leading film updated!')
+      console.log("Leading film updated!");
       console.log(response);
       if (error) {
         console.log(error);
-      };
+      }
     });
   };
 
@@ -205,6 +209,63 @@ $(document).ready(function() {
     });
   };
 
+  const checkIfBoardExpired = () => {
+    // convert nextshowtime to military time
+    let militaryTime = convertToMilitaryTime(nextShowtime);
+    console.log(militaryTime)
+
+    nextShowing = `${nextShowing.replace(/\//g, "-")} ${militaryTime}`;
+    console.log(nextShowing)
+    let nextShowingUnix = moment(nextShowing).unix() * 1000;
+    // console.log(nextShowingUnix);
+    let now = Date.now();
+    // console.log(now)
+    if (nextShowingUnix < now)
+      console.log("Showtime has past! Board is expired");
+    // get the current boards next showtime
+    // get the current time
+    // compare them
+    // if we are showtime is in the past
+    // set the board
+
+    // if it is, set that board to isActive false
+    // create a new board where isActive = true
+  };
+
+  const convertToMilitaryTime = (time) => {
+    console.log(time);
+    // If the hour is 1 digit
+    if (time[1] === ":") {
+      console.log("one digit hour")
+      time = "0" + time;
+    }
+    console.log(time);
+
+    let hour = time.substring(0, 2) * 1;
+    console.log(hour)
+    let timeFormat = time.substring(2, 5);
+    // console.log(timeFormat)
+    // if midnight
+    if (hour === 12 && s.indexOf("AM") !== -1) {
+      return "00" + timeFormat;
+    }
+    // if afternoon
+    if (hour === 12 && s.indexOf("PM") !== -1) {
+      return time + timeFormat;
+    }
+    if (hour < 12 && time.indexOf("PM") !== -1) {
+      return 12 + hour + timeFormat;
+    } else {
+      // if hour is from 1 to 11 AM
+      if (hour < 10) {
+        // if number is less than 10, add a zero in front
+        return "0" + hour + timeFormat;
+      } else {
+        // if number is greater than 9, just add rest of string
+        return hour + timeFormat;
+      }
+    }
+  };
   // TODO
   // Check if the group is a public group
   // And the user does not belong to the group
@@ -217,7 +278,10 @@ $(document).ready(function() {
     // Get group data
     $.get(`/api/groups/${groupId}`).then(function(groupData) {
       adminUserId = groupData.adminUserId;
-
+      nextShowing = groupData.Boards[0].nextShowing;
+      nextShowtime = groupData.Boards[0].showTime;
+      // Check if the current date is past the showtime
+      checkIfBoardExpired();
       // Check if the group is private
       console.log(groupData);
       // save the board ID as a variable for adding movies
@@ -362,4 +426,12 @@ $(document).ready(function() {
     // if not, alert them that they have to wait until tomorrow to vote again
     // check all movie votes, update leading film (make this it's own function)
   });
+
+  // Add admin capabilities
+  // Edit the board theme (Set new theme when board expires)
+  // Invite users by email?
+  // View private group password
+  // Change private grou password
+  // View users in the group
+  // Remove users
 });
