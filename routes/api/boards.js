@@ -12,5 +12,6 @@ router
 router
   .route("/:id")
   .get(boardsController.findById)
+  .put(boardsController.updateLeadingFilm)
   
 module.exports = router;

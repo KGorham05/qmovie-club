@@ -11,13 +11,12 @@ $(document).ready(function() {
   let currentBoardId = null;
   let currentGroupId = null;
   let currentMovieId = null;
-  let currentBoardMoviesData = []
+  let currentBoardMoviesData = [];
   let movieWithMostVotes = null;
   let highestNumVotes = 0;
   // update marquee with group data
   const updateMarquee = (groupData) => {
-  
-    determineLeadingFilm(groupData.Boards[0].Movies)
+    determineLeadingFilm(groupData.Boards[0].Movies);
     // Save references to components to update as variables
     const groupName = $("#group-name");
     const currentTheme = $("#current-theme");
@@ -27,12 +26,13 @@ $(document).ready(function() {
     const showDate = $("#show-date");
     const timeZone = $("#time-zone");
 
-
     timeZone.text(groupData.Boards[0].timeZone);
     groupName.text(groupData.name);
     currentTheme.text(groupData.Boards[0].currentTheme);
-    upcomingMovie.text(movieWithMostVotes); 
-    showDay.text(moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ",");
+    upcomingMovie.text(movieWithMostVotes);
+    showDay.text(
+      moment(groupData.Boards[0].nextShowing, "MM DD YYYY").format("dddd") + ","
+    );
     showDate.text(groupData.Boards[0].nextShowing);
     showTime.text(groupData.Boards[0].showTime);
   };
@@ -57,32 +57,32 @@ $(document).ready(function() {
   const updateVoteBoard = (movies) => {
     $("#vote-display").empty();
     $("#vote-display").append($('<h4 class="card-title">Voting Results</h4>'));
-    movies.map(movie => {
+    movies.map((movie) => {
       const h5 = $("<h5>");
       const span = $("<span>");
       h5.text(movie.title + ": ");
-      span.attr('data-score-id', movie.Boards_Movies.MovieId);
-      span.attr('data-numVotes', movie.Boards_Movies.numVotes);
+      span.attr("data-score-id", movie.Boards_Movies.MovieId);
+      span.attr("data-numVotes", movie.Boards_Movies.numVotes);
       span.text(movie.Boards_Movies.numVotes);
       h5.append(span);
       $("#vote-display").append(h5);
-    })
+    });
   };
 
-  const addVoteToBoard = id => {
-    const movieToUpdate = currentBoardMoviesData.find(movie => movie.id === id);
+  const addVoteToBoard = (id) => {
+    const movieToUpdate = currentBoardMoviesData.find( movie => movie.id === id);
     console.log(movieToUpdate);
     let spanToEdit = $('[data-score-id="' + movieToUpdate.id + '"]');
     let existingVotes = parseInt(spanToEdit[0].dataset.numvotes);
     existingVotes++;
     spanToEdit.text(existingVotes);
-    spanToEdit.attr('data-numVotes', existingVotes);
+    spanToEdit.attr("data-numVotes", existingVotes);
     // check if it now has more votes then the MovieWithMostVotes
     if (existingVotes > highestNumVotes) {
       // If it does, update the marquee
       const upcomingMovie = $("#upcoming-movie");
       upcomingMovie.text(movieToUpdate.title);
-    };
+    }
   };
 
   const buildMovieCards = (movies) => {
@@ -155,27 +155,36 @@ $(document).ready(function() {
       currentBoardMoviesData = movieSuggestionsData.Movies;
       buildMovieCards(currentBoardMoviesData);
       updateVoteBoard(currentBoardMoviesData);
+      determineLeadingFilm(currentBoardMoviesData);
     });
   };
 
-  const determineLeadingFilm = movieData => {
+  const determineLeadingFilm = (movieData) => {
     for (let i = 0; i < movieData.length; i++) {
       const thisMoviesNumVotes = movieData[i].Boards_Movies.numVotes;
       if (thisMoviesNumVotes > highestNumVotes) {
         highestNumVotes = thisMoviesNumVotes;
         movieWithMostVotes = movieData[i].title;
+        updateLeadingFilmInDB(movieWithMostVotes)
       }
     }
   };
 
-  // const updateLeadingFilmInDB = title => {
-    
-  // }
-
-  // Check if the group is a public group
-  // And the user does not belong to the group
-  // Add a "Join Group" Button to the Nav Bar
-  // Don't allow the user to vote or suggest movies unless they join the group
+  const updateLeadingFilmInDB = (title) => {
+    $.ajax({
+      method: "PUT",
+      url: `/api/boards/${currentBoardId}`,
+      data: {
+        title: title,
+      },
+    }).then((response, error) => {
+      console.log('Leading film updated!')
+      console.log(response);
+      if (error) {
+        console.log(error);
+      };
+    });
+  };
 
   const addVote = (id, votes) => {
     $.ajax({
@@ -185,14 +194,22 @@ $(document).ready(function() {
         votes: votes,
         movieId: id,
         boardId: currentBoardId,
-        groupId: currentGroupId
+        groupId: currentGroupId,
       },
     }).then((res) => {
+      populateMovieData();
       console.log(res);
-      if (res.numVotes === 0) alert("Out of votes! Wait until tomorrow to vote again!")
+      if (res.numVotes === 0)
+        alert("Out of votes! Wait until tomorrow to vote again!");
       else addVoteToBoard(id);
     });
   };
+
+  // TODO
+  // Check if the group is a public group
+  // And the user does not belong to the group
+  // Add a "Join Group" Button to the Nav Bar
+  // Don't allow the user to vote or suggest movies unless they join the group
 
   // On page load, get info about the current user
   $.get("/api/users").then(function(userData) {
@@ -345,6 +362,4 @@ $(document).ready(function() {
     // if not, alert them that they have to wait until tomorrow to vote again
     // check all movie votes, update leading film (make this it's own function)
   });
-
-
 });

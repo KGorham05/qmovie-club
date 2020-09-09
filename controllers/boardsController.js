@@ -16,6 +16,13 @@ module.exports = {
       .then(dbBoard => res.json(dbBoard))
       .catch(err => res.status(422).json(err));
   },
+  // Update the board's leading film 
+  updateLeadingFilm: function(req, res) {
+    db.Board
+      .update({ leadingFilm: req.body.title }, { where: { id: req.params.id }})
+      .then(dbMovie => res.json(dbMovie))
+      .catch(err => res.json(err))
+  }
   
   // Need to create a method and route for hanlding archiving a board, and creating a new one 
 }
