@@ -211,25 +211,18 @@ $(document).ready(function() {
 
   const checkIfBoardExpired = () => {
     // convert nextshowtime to military time
-    let militaryTime = convertToMilitaryTime(nextShowtime);
+    const militaryTime = convertToMilitaryTime(nextShowtime);
     console.log(militaryTime)
-
     nextShowing = `${nextShowing.replace(/\//g, "-")} ${militaryTime}`;
     console.log(nextShowing)
-    let nextShowingUnix = moment(nextShowing).unix() * 1000;
+    const nextShowingUnix = moment(nextShowing).unix() * 1000;
     // console.log(nextShowingUnix);
-    let now = Date.now();
+    const now = Date.now();
     // console.log(now)
     if (nextShowingUnix < now)
       console.log("Showtime has past! Board is expired");
-    // get the current boards next showtime
-    // get the current time
-    // compare them
-    // if we are showtime is in the past
-    // set the board
-
-    // if it is, set that board to isActive false
-    // create a new board where isActive = true
+      //set the board to isActive false
+      // create a new board where isActive = true
   };
 
   const convertToMilitaryTime = (time) => {
@@ -241,9 +234,9 @@ $(document).ready(function() {
     }
     console.log(time);
 
-    let hour = time.substring(0, 2) * 1;
+    const hour = time.substring(0, 2) * 1;
     console.log(hour)
-    let timeFormat = time.substring(2, 5);
+    const timeFormat = time.substring(2, 5);
     // console.log(timeFormat)
     // if midnight
     if (hour === 12 && s.indexOf("AM") !== -1) {
